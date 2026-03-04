@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import API from "../services/api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
+import "../styles/Auth.css"
 
 const Login = () => {
     const [form, setForm] = useState({
@@ -22,41 +23,49 @@ const Login = () => {
             localStorage.setItem("token", data.token);
             localStorage.setItem("role", data.user.role);
 
-            if(data.user.role == "provider"){
+            if(data.user.role === "provider"){
                 navigate("/provider-dashboard");
             } else {
                 navigate("/user-dashboard");
             }
 
         }catch(err){
-            alert(err.response.data.message);
+            alert(err.response?.data?.message || "Login failed");
         }
     };
 
     return(
         <div className="auth-container">
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
 
-                <input 
-                name="email" 
-                placeholder="Email" 
-                value={form.email}
-                onChange={handleChange} 
-                />
+            <div className="auth-box">
+                <h2>Login</h2>
+                <form onSubmit={handleSubmit}>
 
-                <input 
-                name="password" 
-                type="password" 
-                placeholder="Password" 
-                value={form.password}
-                onChange={handleChange} 
-                />
-                
-                <button type="submit">Login</button>
-            </form>
+                    <input
+                    type="email" 
+                    name="email" 
+                    placeholder="Email"
+                    autoComplete="email" 
+                    onChange={handleChange} 
+                    />
+
+                    <input 
+                    name="password" 
+                    type="password" 
+                    placeholder="Password"
+                    autoComplete="current-password" 
+                    onChange={handleChange} 
+                    />
+                    
+                    <button className="auth-btn">Login</button>
+                </form>
+
+                <p className="auth-link">
+                    Don't have account? <Link to="/register">Register</Link>
+                </p>
+            </div>
         </div>
     );
-}
+};
 
 export default Login;

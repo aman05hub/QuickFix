@@ -1,12 +1,13 @@
 import React, {useState} from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "../styles/Navbar.css";
 
 const Navbar = () => {
 
-    const [menuOpen, setMenuOpen] = useState(false);
-
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const [menuOpen, setMenuOpen] = useState(false);
 
     const logout = () => {
         localStorage.removeItem("token");
@@ -21,10 +22,10 @@ const Navbar = () => {
 
             <div className={`nav-links ${menuOpen ? "active" : ""}`}>
 
-                <Link to="/"> Home </Link>
-                <Link to="/services">Services</Link>
-                <Link to="/user-dashboard">Dashboard</Link>
-                <Link to="/login">Login</Link>
+                <Link to="/" className={location.pathname === "/" ? "active" : ""}> Home </Link>
+                <Link to="/services" className={location.pathname === "/services" ? "active" : ""}>Services</Link>
+                <Link to="/my-bookings" className={location.pathname === "/my-bookings" ? "active" : ""}>My Bookings</Link>
+                {/* <Link to="/login">Login</Link> */}
 
                 <button className="logout-btn" onClick={logout}>Logout</button>
             </div>
