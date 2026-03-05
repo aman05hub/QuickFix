@@ -66,8 +66,6 @@
   width: 350px;
 }
 
-/* -------- RESPONSIVE -------- */
-
 @media (max-width: 768px) {
 
   .hero {
