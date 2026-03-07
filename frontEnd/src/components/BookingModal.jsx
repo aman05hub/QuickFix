@@ -7,11 +7,11 @@ const BookingModal = ({ serviceId, closeModal }) => {
     const [date, setDate] = useState("")
     const [time, setTime] = useState("");
     const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
 
     const handleBooking = async() => {
 
         if(!date || !time){
-            alert("Please select date and time");
             return;
         }
 
@@ -26,12 +26,14 @@ const BookingModal = ({ serviceId, closeModal }) => {
 
             await API.post("/bookings/create", bookingDate);
 
-            alert("Booking Successfull");
+            setSuccess(true);
+
+            setTimeout(()=>{
             closeModal();
+            },2000);
 
         }catch(err){
             console.log(err);
-            alert("Booking failed")
         }finally{
             setLoading(false);
         }
@@ -55,6 +57,8 @@ const BookingModal = ({ serviceId, closeModal }) => {
                 value={time}
                 onChange={(e) => setTime(e.target.value)} 
                 />
+
+                {success && <p className="success-msg">Booking Successful ✓</p>}
 
                 <div className="modal-buttons">
 

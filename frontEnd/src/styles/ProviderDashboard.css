@@ -1,0 +1,102 @@
+.provider-page{
+padding:40px 20px;
+background:#f4f6fb;
+min-height:100vh;
+}
+
+.provider-page h1{
+text-align:center;
+margin-bottom:30px;
+}
+
+.provider-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:25px;
+max-width:1000px;
+margin:auto;
+}
+
+.provider-card{
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.provider-card h3{
+margin-bottom:10px;
+}
+
+.provider-card p{
+margin:5px 0;
+}
+
+/* Buttons */
+
+.action-buttons{
+margin-top:10px;
+display:flex;
+gap:10px;
+}
+
+.accept-btn{
+background:#28a745;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.reject-btn{
+background:#dc3545;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.accept-btn:hover{
+background:#218838;
+}
+
+.reject-btn:hover{
+background:#c82333;
+}
+
+button:disabled{
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.dashboard-summary{
+display:flex;
+justify-content:center;
+gap:20px;
+margin-bottom:30px;
+flex-wrap:wrap;
+}
+
+.summary-card{
+padding:12px 20px;
+border-radius:8px;
+font-weight:600;
+box-shadow:0 6px 15px rgba(0,0,0,0.1);
+}
+
+.summary-card.pending{
+background:#fff3cd;
+color:#856404;
+}
+
+.summary-card.accepted{
+background:#d4edda;
+color:#155724;
+}
+
+.summary-card.completed{
+background:#cce5ff;
+color:#004085;
+}

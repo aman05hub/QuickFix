@@ -1,0 +1,84 @@
+.bookings-page{
+padding:40px 20px;
+background:#f4f6fb;
+min-height:100vh;
+}
+
+.bookings-page h1{
+text-align:center;
+margin-bottom:35px;
+font-size:32px;
+color:#333;
+}
+
+/* Grid */
+
+.bookings-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:25px;
+max-width:1000px;
+margin:auto;
+}
+
+/* Card */
+
+.booking-card{
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+transition:0.3s;
+}
+
+.booking-card:hover{
+transform:translateY(-6px);
+box-shadow:0 15px 35px rgba(0,0,0,0.15);
+}
+
+/* Service title */
+
+.booking-card h3{
+margin-bottom:15px;
+color:#444;
+}
+
+/* Text */
+
+.booking-card p{
+margin:6px 0;
+color:#666;
+}
+
+/* Status */
+
+.status{
+margin-top:12px;
+padding:6px 12px;
+border-radius:20px;
+font-size:14px;
+font-weight:600;
+display:inline-block;
+text-transform:capitalize;
+}
+
+/* Pending */
+
+.status.pending{
+background:#fff3cd;
+color:#856404;
+}
+
+/* Accepted */
+
+.status.accepted{
+background:#d4edda;
+color:#155724;
+}
+
+/* Rejected */
+
+.status.rejected{
+background:#f8d7da;
+color:#721c24;
+}

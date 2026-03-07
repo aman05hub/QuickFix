@@ -55,21 +55,13 @@ async function getProviderBookings(req,res){
 
 async function updateBookingStatus(req,res){
     try{
+        const { id } = req.params;
         const { status } = req.body;
 
-        const booking = await Booking.findById(req.params.id);
+        const booking = await Booking.findById(id);
 
         if(!booking){
             return res.status(404).json({ message: "Booking not found" });
-        }
-
-        if(!booking.provider){
-            return res.status(400).json({ message: "Provider missing in booking" });
-        }
-
-        //only that particular provider can update
-        if(booking.provider.toString() !== req.user._id.toString()){
-            return res.status(403).json({ message: "Not allowed" });
         }
 
         booking.status = status;

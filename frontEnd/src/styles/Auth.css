@@ -134,6 +134,13 @@ background:#ff7a18;
 border:none;
 }
 
+.form-message{
+text-align:center;
+margin-bottom:15px;
+color:#ff4d4f;
+font-weight:500;
+}
+
 /* Mobile */
 
 @media(max-width:480px){

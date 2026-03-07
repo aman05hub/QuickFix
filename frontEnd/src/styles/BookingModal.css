@@ -57,3 +57,10 @@
   border-radius: 6px;
   cursor: pointer;
 }
+
+.success-msg{
+color:green;
+text-align:center;
+margin:10px 0;
+font-weight:600;
+}
