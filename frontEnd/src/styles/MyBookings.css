@@ -25,86 +25,63 @@ margin:auto;
 
 .booking-card{
 background:white;
-padding:25px;
+padding:20px;
 border-radius:12px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
+box-shadow:0 6px 15px rgba(0,0,0,0.08);
 transition:0.3s;
 }
 
 .booking-card:hover{
-transform:translateY(-6px);
-box-shadow:0 15px 35px rgba(0,0,0,0.15);
+transform:translateY(-5px);
+box-shadow:0 10px 20px rgba(0,0,0,0.15);
 }
 
-/* Service title */
-
-.booking-card h3{
-margin-bottom:15px;
-color:#444;
+.service-title{
+font-size:18px;
+margin-bottom:10px;
 }
 
-/* Text */
-
-.booking-card p{
-margin:6px 0;
-color:#666;
+.booking-info{
+margin-bottom:8px;
 }
 
-/* Status */
-
-.status{
-margin-top:12px;
-padding:6px 12px;
-border-radius:20px;
+.booking-info p{
+margin:3px 0;
 font-size:14px;
+}
+
+.booking-info span{
 font-weight:600;
+}
+
+.payment-badge{
 display:inline-block;
-text-transform:capitalize;
+padding:4px 10px;
+border-radius:20px;
+font-size:12px;
+margin-top:10px;
 }
 
-/* Pending */
-
-.status.pending{
-background:#fff3cd;
-color:#856404;
-}
-
-/* Accepted */
-
-.status.accepted{
+.payment-badge.paid{
 background:#d4edda;
-color:#155724;
+color:#2e7d32;
 }
 
-/* Rejected */
-
-.status.rejected{
+.payment-badge.unpaid{
 background:#f8d7da;
-color:#721c24;
+color:#c62828;
 }
 
-.ontheway-btn{
-background:#ffc107;
-color:black;
+.pay-btn{
+margin-top:10px;
+padding:6px 12px;
+background:#4CAF50;
 border:none;
-padding:8px 12px;
-border-radius:6px;
-cursor:pointer;
-}
-
-.complete-btn{
-background:#28a745;
 color:white;
-border:none;
-padding:8px 12px;
 border-radius:6px;
 cursor:pointer;
 }
 
-.ontheway-btn:hover{
-background:#e0a800;
-}
-
-.complete-btn:hover{
-background:#218838;
+.pay-btn:hover{
+background:#43a047;
 }

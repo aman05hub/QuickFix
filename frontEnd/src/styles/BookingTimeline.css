@@ -1,0 +1,66 @@
+.timeline {
+  position: relative;
+  margin: 30px 0 10px;
+  padding: 0 10px;
+}
+
+.timeline-line {
+  position: absolute;
+  top: 14px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #e5e5e5;
+  border-radius: 2px;
+}
+
+.timeline-progress {
+  position: absolute;
+  top: 14px;
+  left: 0;
+  height: 4px;
+  background: #28a745;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.timeline-steps {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+}
+
+.timeline-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80px;
+  text-align: center;
+}
+
+.timeline-step .circle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #ccc;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px #e5e5e5;
+  margin-bottom: 6px;
+  transition: all 0.3s ease;
+}
+
+.timeline-step.active .circle {
+  background: #28a745;
+  box-shadow: 0 0 0 2px #28a745;
+}
+
+.timeline-step span {
+  font-size: 11px;
+  color: #444;
+  line-height: 1.2;
+}
+
+.timeline-step.active span {
+  font-weight: 600;
+}

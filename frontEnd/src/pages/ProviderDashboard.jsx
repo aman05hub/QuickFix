@@ -27,9 +27,7 @@ const ProviderDashboard = () => {
     const updateStatus = async(id,status)=>{
 
         try{
-            const {data} = await API.put(`/bookings/${id}/status`,{
-                status
-            });
+            const {data} = await API.put(`/bookings/${id}/status`,{status});
 
             setBookings(prev => 
                 prev.map(b =>
@@ -77,10 +75,12 @@ const ProviderDashboard = () => {
                         <p><b>Phone:</b>{booking.phone}</p>
 
                         <p className={`status ${booking.status}`}>
-                            {booking.status}
+                            {booking.status === "pending" && "🟡 Pending"}
+                            {booking.status === "accepted" && "🟢 Accepted"}
+                            {booking.status === "on the way" && "🚗 On The Way"}
+                            {booking.status === "completed" && "✅ Completed"}
+                            {booking.status === "rejected" && "🔴 Rejected"}
                         </p>
-
-                        {booking.status === "pending" && (
                             <div className="action-buttons">
 
                                 {booking.status === "pending" && (
@@ -121,7 +121,6 @@ const ProviderDashboard = () => {
                                 )}
 
                             </div>
-                        )}
                     </div>
                 ))}
             </div>
