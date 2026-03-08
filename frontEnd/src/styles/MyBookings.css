@@ -82,3 +82,29 @@ color:#155724;
 background:#f8d7da;
 color:#721c24;
 }
+
+.ontheway-btn{
+background:#ffc107;
+color:black;
+border:none;
+padding:8px 12px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.complete-btn{
+background:#28a745;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.ontheway-btn:hover{
+background:#e0a800;
+}
+
+.complete-btn:hover{
+background:#218838;
+}

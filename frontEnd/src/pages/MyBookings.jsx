@@ -22,6 +22,22 @@ const MyBookings = () => {
         fetchBookings();
 
     }, []);
+
+    const payBooking = async (id) => {
+        try{
+
+            await API.put(`/bookings/${id}/pay`);
+
+            setBookings(prev =>
+                prev.map(b =>
+                    b._id === id ? { ...b, paymentStatus: "paid"} : b
+                )
+            )
+        } catch(err){
+            console.log(err)
+        }
+    };
+
     return(
         <div className="bookings-page">
             <h1>My Bookings</h1>
@@ -45,8 +61,23 @@ const MyBookings = () => {
                             {booking.status === "pending" && "🟡 Pending"}
                             {booking.status === "accepted" && "🟢 Accepted"}
                             {booking.status === "rejected" && "🔴 Rejected"}
+                            {booking.status === "on the way" && "🚗 On the Way"}
                             {booking.status === "completed" && "✅ Completed"}
                         </p>
+
+                        <p className="payment">
+                            payment: {booking.paymentStatus}
+                        </p>
+
+                        {booking.status === "accepted" && booking.paymentStatus === "unpaid" && (
+
+                            <button
+                            className="pay-btn"
+                            onClick={() => payBooking(booking._id)}
+                            >
+                                Pay Now
+                            </button>
+                        )}
                     </div>
                 ))}
             </div>

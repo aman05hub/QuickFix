@@ -64,3 +64,17 @@ text-align:center;
 margin:10px 0;
 font-weight:600;
 }
+
+.pay-btn{
+margin-top:10px;
+padding:8px 14px;
+border:none;
+border-radius:6px;
+background:#007bff;
+color:white;
+cursor:pointer;
+}
+
+.pay-btn:hover{
+background:#0056b3;
+}

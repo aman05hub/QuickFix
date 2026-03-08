@@ -79,19 +79,42 @@ const ProviderDashboard = () => {
                         {booking.status === "pending" && (
                             <div className="action-buttons">
 
-                                <button
-                                className="accept-btn"
-                                onClick={() => updateStatus(booking._id,"accepted")}
-                                >
-                                Accept
-                                </button>
+                                {booking.status === "pending" && (
+                                    <>
 
-                                <button
-                                className="reject-btn"
-                                onClick={() => updateStatus(booking._id,"rejected")}
-                                >
-                                Reject
-                                </button>
+                                    <button 
+                                    className="accept-btn"
+                                    onClick={() => updateStatus(booking._id,"accepted")}
+                                    >
+                                        Accept
+                                    </button>
+
+                                    <button 
+                                    className="reject-btn"
+                                    onClick={() => updateStatus(booking._id,"rejected")}
+                                    >
+                                        Reject
+                                    </button>
+
+                                    </>
+                                )}
+
+                                {booking.status === "accepted" && booking.paymentStatus === "paid" && (
+                                    <button 
+                                    className="ontheway-btn"
+                                    onClick={() => updateStatus(booking._id,"on the way")}
+                                    >
+                                        On The Way
+                                    </button>
+                                )}
+
+                                {booking.status === "on the way" && (
+                                    <button className="complete-btn"
+                                    onClick={() => updateStatus(booking._id,"completed")}
+                                    >
+                                        Completed
+                                    </button>
+                                )}
 
                             </div>
                         )}

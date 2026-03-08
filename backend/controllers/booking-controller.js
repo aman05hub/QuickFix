@@ -74,9 +74,30 @@ async function updateBookingStatus(req,res){
     }
 }
 
+async function payBooking(req, res){
+    try{
+
+        const booking = await Booking.findById(req.params.id);
+
+        if(!booking){
+            return res.status(404).json({ message: "Booking not found" });
+        }
+
+        booking.paymentStatus = "paid"
+
+        await booking.save();
+
+        res.json(booking);
+
+    }catch(err){
+        res.status(500).json({ message: err.message });
+    }
+}
+
 module.exports = { 
     createBooking, 
     getMyBookings, 
     getProviderBookings,
-    updateBookingStatus
+    updateBookingStatus,
+    payBooking
  };
