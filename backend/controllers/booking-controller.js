@@ -3,7 +3,7 @@ const Service = require("../models/Service-model");
 
 async function createBooking(req,res){
     try{
-        const { serviceId, date, time } = req.body;
+        const { serviceId, date, time, address, phone } = req.body;
 
         const service = await Service.findById(serviceId);
 
@@ -13,13 +13,28 @@ async function createBooking(req,res){
 
         const booking = await Booking.create({
             user: req.user._id,
-            service: service.id,
+            service: serviceId,
             provider: service.provider,
+            date,
+            time,
+            address,
+            phone
+        });
+
+        res.status(201).json(booking);
+
+        const existingBooking = await Booking.findOne({
+            user: req.user._id,
+            service: serviceId,
             date,
             time
         });
 
-        res.status(201).json(booking);
+        if(existingBooking){
+            return res.status(400).json({
+                message: "You already booked this service at this time"
+            });
+        }
 
     }catch(err){
         res.status(500).json({ message: err.message });

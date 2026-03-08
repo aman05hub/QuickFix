@@ -72,6 +72,10 @@ const ProviderDashboard = () => {
 
                         <p><b>Time:</b>{booking.time}</p>
 
+                        <p><b>Address:</b>{booking.address}</p>
+
+                        <p><b>Phone:</b>{booking.phone}</p>
+
                         <p className={`status ${booking.status}`}>
                             {booking.status}
                         </p>

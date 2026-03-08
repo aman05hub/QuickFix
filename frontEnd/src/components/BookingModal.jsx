@@ -4,24 +4,34 @@ import "../styles/BookingModal.css";
 
 const BookingModal = ({ serviceId, closeModal }) => {
 
-    const [date, setDate] = useState("")
+    const [date, setDate] = useState("");
     const [time, setTime] = useState("");
+    const [address, setAddress] = useState("");
+    const [phone, setPhone] = useState("")
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [error, setError] = useState("");
 
     const handleBooking = async() => {
 
-        if(!date || !time){
+        if(!date || !time || !address || !phone){
+            setError("All fields are required")
             return;
         }
 
+        if (!/^[0-9]{10}$/.test(phone)){
+            setError("Phone number must be 10 digits");
+            return;
+        }
         try{
             setLoading(true)
 
             const bookingDate = {
                 serviceId,
                 date,
-                time
+                time,
+                address,
+                phone
             };
 
             await API.post("/bookings/create", bookingDate);
@@ -38,36 +48,105 @@ const BookingModal = ({ serviceId, closeModal }) => {
             setLoading(false);
         }
     };
+    const timeSlots = ["09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00"];
 
     return (
         <div className="modal-overlay">
             <div className="modal-box">
+
+                {!success ? (
+                    <>
+                    
                 <h2>Book Service</h2>
-                <label> Select Date</label>
 
-                <input 
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
+                <div className="input-group">
+
+                    <label> 📅 Date</label>
+
+                    <input 
+                    type="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    />
+
+                </div>
+                
+                <div className="input-group">
+
+                    <label>⏰ Time</label>
+
+                    <div className="time-slots">
+
+                        {timeSlots.map((slot) => (
+                            <button
+                            key={slot}
+                            className={time === slot ? "slot active" : "slot"}
+                            onClick={() => setTime(slot)}
+                            >
+                                {slot}
+                            </button>
+                        ))}
+                    </div>
+
+                </div>
+
+                <div className="input-group">
+
+                    <label>📍 Address</label>
+
+                    <input type="text"
+                    placeholder="Enter service address"
+                    value={address}
+                    onChange={(e)=>setAddress(e.target.value)}
                 />
 
-                <label>Select Time</label>
+                </div>
 
-                <input type="time"
-                value={time}
-                onChange={(e) => setTime(e.target.value)} 
+                <div className="input-group">
+
+                    <label>📞 Phone</label>
+
+                    <input 
+                    type="text"
+                    placeholder="Enter contact number"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)} 
                 />
+ 
+                </div>
 
-                {success && <p className="success-msg">Booking Successful ✓</p>}
+                {error && <p className="error-msg">{error}</p>}
 
                 <div className="modal-buttons">
 
-                    <button className="confirm-btn" onClick={handleBooking}>{loading ? "Booking...":"Confirm Booking"}</button>
+                    <button 
+                    className="confirm-btn" 
+                    onClick={handleBooking}
+                    disabled={loading}>
+                        {loading ? "Booking..." : "Confirm Booking"}
+                    </button>
 
-                    <button className="cancel-btn" onClick={closeModal}>Cancel</button>
+                    <button 
+                    className="cancel-btn" 
+                    onClick={closeModal}
+                    >
+                        Cancel
+                    </button>
+
                 </div>
-            </div>
+
+            </>
+            ):(
+
+                <div className="success-box">
+                    <h2>✅ Booking Successful</h2>
+                    <p>Your service has been booked</p>
+                </div>
+
+            )}
+                
         </div>
+    </div>
     )
 }
 

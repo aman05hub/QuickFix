@@ -26,7 +26,7 @@ const Login = () => {
             if(data.user.role === "provider"){
                 navigate("/provider-dashboard");
             } else {
-                navigate("/user-dashboard");
+                navigate("/");
             }
 
         }catch(err){

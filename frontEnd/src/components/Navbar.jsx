@@ -1,13 +1,16 @@
 import React, {useState} from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { FaUserCircle } from "react-icons/fa"
 import "../styles/Navbar.css";
 
 const Navbar = () => {
 
     const navigate = useNavigate();
-    const location = useLocation();
 
-    const [menuOpen, setMenuOpen] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false)
+    const [dropdownOpen, setDropdownOpen] = useState(false)
+
+    const token = localStorage.getItem("token")
 
     const logout = () => {
         localStorage.removeItem("token");
@@ -22,12 +25,36 @@ const Navbar = () => {
 
             <div className={`nav-links ${menuOpen ? "active" : ""}`}>
 
-                <Link to="/" className={location.pathname === "/" ? "active" : ""}> Home </Link>
-                <Link to="/services" className={location.pathname === "/services" ? "active" : ""}>Services</Link>
-                <Link to="/my-bookings" className={location.pathname === "/my-bookings" ? "active" : ""}>My Bookings</Link>
-                {/* <Link to="/login">Login</Link> */}
+                <Link to="/"> Home </Link>
+                <Link to="/services">Services</Link>
+                {/* Show only when logged in */}
+                {token && <Link to="/my-bookings">My Bookings</Link>}
 
-                <button className="logout-btn" onClick={logout}>Logout</button>
+                {!token && (
+                    <Link to = "/login">
+                        <button className="login-btn">Login</button>
+                    </Link>
+                )}
+
+                {token && (
+                    <div className="user-menu">
+
+                        <FaUserCircle
+                        className="user-icon"
+                        onClick={() => setDropdownOpen(!dropdownOpen)}
+                        />
+
+                        {dropdownOpen && (
+                            <div className="dropdown">
+                                <Link to="/my-bookings">My Bookings</Link>
+
+                                <button onClick={logout}>Logout</button>
+                            </div>
+                        )}
+
+                    </div>
+                )}
+                
             </div>
 
             <div 

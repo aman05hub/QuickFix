@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import API from "../services/api";
 import "../styles/MyBookings.css";
+import PaymentModel from "../components/PaymentModel";
 
 const MyBookings = () => {
 
     const [bookings, setBookings] = useState([]);
+    const [selectedBooking,setSelectedBooking] = useState(null);
 
     useEffect(() => {
 
@@ -73,7 +75,7 @@ const MyBookings = () => {
 
                             <button
                             className="pay-btn"
-                            onClick={() => payBooking(booking._id)}
+                            onClick={() => setSelectedBooking(booking)}
                             >
                                 Pay Now
                             </button>
@@ -81,6 +83,21 @@ const MyBookings = () => {
                     </div>
                 ))}
             </div>
+
+                {selectedBooking && (
+
+                    <PaymentModel
+                    booking={selectedBooking}
+                    closeModel={() => setSelectedBooking(null)}
+                    updatePayment={(id) => 
+                        setBookings(prev => 
+                            prev.map(b =>
+                                b._id === id ? {...b, paymentStatus:"paid"} : b
+                            )
+                        )
+                    }
+                    />
+                )}
         </div>
     )
 }
