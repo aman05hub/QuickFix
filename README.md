@@ -89,5 +89,4 @@ server
 
 ## Author
 
-Sheikh Aman
-BCA Student | MERN Stack Developer
+Aman | MERN Stack Developer
