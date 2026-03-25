@@ -10,7 +10,8 @@
 }
 
 .hero {
-  padding: 80px 20px;
+  padding: 100px 20px;
+  background: linear-gradient(135deg, #eef2ff, #ffffff);
 }
 
 .hero-content{
@@ -44,19 +45,21 @@
 .hero-buttons {
   display: flex;
   gap: 15px;
+  margin-top: 20px;
 }
 
 .primary-btn {
   padding: 12px 22px;
   border: none;
-  background: #4f46e5;
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  transition: 0.3s;
   color: white;
   border-radius: 8px;
   cursor: pointer;
 }
 
 .primary-btn:hover {
-  background: #3730a3;
+  transform: scale(1.05);
 }
 
 .secondary-btn {
@@ -69,7 +72,7 @@
 }
 
 .secondary-btn:hover {
-  background: #eef2ff;
+transform: scale(1.05);
 }
 
 .hero-image svg {
@@ -93,18 +96,24 @@
   flex-wrap: nowrap;
 }
 
+.icon {
+  font-size: 35px;
+  color: #4f46e5;
+  margin-bottom: 10px;
+}
+
 .service-box{
-  background:white;
+  background:linear-gradient(135deg, #ffffff, #eef2ff);
   padding:25px;
-  border-radius:12px;
-  width:220px;
+  border-radius:14px;
   text-align: center;
-  box-shadow:0 5px 15px rgba(0,0,0,0.1);
-  transition:0.3s;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
 }
 
 .service-box:hover{
-  transform:translateY(-6px);
+  transform: translateY(-10px) scale(1.04);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
 }
 
 .how-section{
@@ -164,7 +173,7 @@
   .services-section h2{
     margin-bottom: 5px;
   }
-  
+
   .service-box{
     min-width: 200px;
   }

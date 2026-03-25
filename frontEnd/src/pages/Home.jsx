@@ -1,6 +1,7 @@
 import React from "react";
 import "../styles/Home.css"
 import { Link } from "react-router-dom";
+import { FaBolt, FaTools, FaBroom, FaSnowflake } from "react-icons/fa";
 
 const Home = () => {
     return (
@@ -22,6 +23,10 @@ const Home = () => {
                             </Link>
                         </div>
                     </div>
+                    <div className="hero-image">
+                        <img src="public/service.svg" alt="service" />
+                    </div>
+
                 </div>
             </section>
 
@@ -33,25 +38,25 @@ const Home = () => {
                     <div className="services-grid">
 
                         <div className="service-box">
-                            ⚡
+                            <FaBolt className="icon" />
                             <h3>Electrician</h3>
                             <p>Fan repair, wiring, switch fixing and more.</p>
                         </div>
 
                         <div className="service-box">
-                            🔧
+                            <FaTools className="icon" />
                             <h3>Plumber</h3>
                             <p>Pipe leakage, tap repair, bathroom fittings.</p>
                         </div>
 
                         <div className="service-box">
-                            🧹
+                            <FaBroom className="icon" />
                             <h3>Cleaning</h3>
                             <p>Home cleaning, kitchen cleaning, deep cleaning.</p>
                         </div>
 
                         <div className="service-box">
-                            ❄️
+                            <FaSnowflake className="icon" />
                             <h3>AC Service</h3>
                             <p>AC repair, gas refill, installation.</p>
                         </div>
