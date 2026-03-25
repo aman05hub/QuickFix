@@ -16,12 +16,17 @@
 .hero-content{
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 40px;
+  justify-content: center;
 }
 
 .hero-text {
-  max-width: 500px;
+  max-width: 700px;
+}
+
+.hero-subtext{
+  margin-top: 10px;
+  font-size: 16px;
+  color: #555;
 }
 
 .hero-text h1 {
@@ -81,10 +86,11 @@
 }
 
 .services-grid{
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  display: flex;
+  justify-content: center;
   gap: 25px;
   margin-top: 30px;
+  flex-wrap: nowrap;
 }
 
 .service-box{
@@ -147,6 +153,20 @@
 
   .hero-image svg {
     width: 250px;
+  }
+
+  .services-grid{
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 10px;
+  }
+
+  .services-section h2{
+    margin-bottom: 5px;
+  }
+  
+  .service-box{
+    min-width: 200px;
   }
 
   .steps{

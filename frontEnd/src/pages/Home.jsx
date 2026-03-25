@@ -7,8 +7,21 @@ const Home = () => {
         <div className="home">
             <section className="hero">
                 <div className="container hero-content">
-                    <h1>Book Trusted Local Services Instantly</h1>
-                    <p>Find electricians, plumbers, cleaners and more near you.</p>
+
+                    <div className="hero-text">
+                        <h1>Book Trusted Local Services Instantly</h1>
+                        <p className="hero-subtext">Find electricians, plumbers, cleaners and more near you.</p>
+
+                        <div className="hero-buttons">
+                            <Link to="/services" className="primary-btn">
+                            Explore Services
+                            </Link>
+
+                            <Link to="/register" className="secondary-btn">
+                            Get Started
+                            </Link>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -17,7 +30,7 @@ const Home = () => {
 
                     <h2>Our Services</h2>
 
-                    <div className="service-grid">
+                    <div className="services-grid">
 
                         <div className="service-box">
                             ⚡
