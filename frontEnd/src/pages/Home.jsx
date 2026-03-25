@@ -7,6 +7,15 @@ const Home = () => {
     return (
         <div className="home">
             <section className="hero">
+
+                <div className="search-box">
+                    <input 
+                        type="text" 
+                        placeholder="Search services (e.g. electrician, plumber)"
+                    />
+                    <button>Search</button>
+                </div>
+
                 <div className="container hero-content">
 
                     <div className="hero-text">
@@ -24,7 +33,7 @@ const Home = () => {
                         </div>
                     </div>
                     <div className="hero-image">
-                        <img src="public/service.svg" alt="service" />
+                        <img src="/service.svg" alt="service" />
                     </div>
 
                 </div>
@@ -41,24 +50,28 @@ const Home = () => {
                             <FaBolt className="icon" />
                             <h3>Electrician</h3>
                             <p>Fan repair, wiring, switch fixing and more.</p>
+                            <p className="rating">⭐⭐⭐⭐☆</p>
                         </div>
 
                         <div className="service-box">
                             <FaTools className="icon" />
                             <h3>Plumber</h3>
                             <p>Pipe leakage, tap repair, bathroom fittings.</p>
+                            <p className="rating">⭐⭐⭐⭐☆</p>
                         </div>
 
                         <div className="service-box">
                             <FaBroom className="icon" />
                             <h3>Cleaning</h3>
                             <p>Home cleaning, kitchen cleaning, deep cleaning.</p>
+                            <p className="rating">⭐⭐⭐⭐☆</p>
                         </div>
 
                         <div className="service-box">
                             <FaSnowflake className="icon" />
                             <h3>AC Service</h3>
                             <p>AC repair, gas refill, installation.</p>
+                            <p className="rating">⭐⭐⭐⭐☆</p>
                         </div>
 
                     </div>
