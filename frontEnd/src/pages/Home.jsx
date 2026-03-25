@@ -5,34 +5,93 @@ import { Link } from "react-router-dom";
 const Home = () => {
     return (
         <div className="home">
-            <div className="hero">
-                <div className="hero-text">
+            <section className="hero">
+                <div className="container hero-content">
                     <h1>Book Trusted Local Services Instantly</h1>
+                    <p>Find electricians, plumbers, cleaners and more near you.</p>
+                </div>
+            </section>
 
-                    <p>Find electricians, plumbers, cleaners and many more professional services near you. Fast booking and reliable providers.</p>
+            <section className="services-section">
+                <div className="container">
 
-                    <div className="hero-buttons">
-                        <Link to="/services">
-                            <button className="primary-btn">Explore Services</button>
-                        </Link>
+                    <h2>Our Services</h2>
 
-                        <Link to="/register">
-                            <button className="secondary-btn">Get Started</button>
-                        </Link>
+                    <div className="service-grid">
+
+                        <div className="service-box">
+                            ⚡
+                            <h3>Electrician</h3>
+                            <p>Fan repair, wiring, switch fixing and more.</p>
+                        </div>
+
+                        <div className="service-box">
+                            🔧
+                            <h3>Plumber</h3>
+                            <p>Pipe leakage, tap repair, bathroom fittings.</p>
+                        </div>
+
+                        <div className="service-box">
+                            🧹
+                            <h3>Cleaning</h3>
+                            <p>Home cleaning, kitchen cleaning, deep cleaning.</p>
+                        </div>
+
+                        <div className="service-box">
+                            ❄️
+                            <h3>AC Service</h3>
+                            <p>AC repair, gas refill, installation.</p>
+                        </div>
+
                     </div>
                 </div>
+            </section>
 
-                <div className="hero-image">
+            <section className="how-section">
+                <div className="container">
 
-                    <svg viewBox="0 0 600 400">
-                        <circle cx="300" cy="200" r="150" fill="#6366f1" opacity="0.2"/>
-                        <rect x="230" y="150" width="140" height="120" rx="12" fill="#6366f1"/>
-                        <circle cx="300" cy="200" r="40" fill="white"/>
-                    </svg>
+                    <h2>How It Works</h2>
+
+                    <div className="steps">
+
+                        <div>
+                            <h3>1. Choose Service</h3>
+                            <p>Select the service you need</p>
+                        </div>
+
+                        <div>
+                            <h3>2. Book Slot</h3>
+                            <p>Pick date & time</p>
+                        </div>
+
+                        <div>
+                            <h3>3. Get Service</h3>
+                            <p>Provider comes to your home</p>
+                        </div>
+
+                    </div>
 
                 </div>
-            </div>
+            </section>
+
+            <section className="why-section">
+                <div className="container">
+
+                    <h2>Why Choose QuickFix</h2>
+
+                    <div className="why-container">
+
+                        <div>✔ Verified Professionals</div>
+                        <div>✔ Affordable Pricing</div>
+                        <div>✔ Fast Booking</div>
+                        <div>✔ Trusted Service</div>
+
+                    </div>
+                </div>
+            </section>
+
         </div>
+
     );
 };
 
