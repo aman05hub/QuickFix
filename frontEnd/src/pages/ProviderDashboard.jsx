@@ -5,23 +5,39 @@ import "../styles/ProviderDashboard.css"
 const ProviderDashboard = () => {
 
     const [bookings,setBookings] = useState([]);
+    const [prevCount, setPrevCount] = useState(0);
+    const [toast, setToast] = useState(false);
 
     const pendingCount = bookings.filter(b => b.status === "pending").length;
     const acceptedCount = bookings.filter(b => b.status === "accepted").length;
     const completedCount = bookings.filter(b => b.status === "completed").length;
 
-    useEffect(() => {
 
-        const fetchBookings = async()=>{
+    const fetchBookings = async()=>{
 
             try{
                 const {data} = await API.get("/bookings/provider");
+                
+                if(data.length > prevCount){
+                    showNotification();
+                }
+
+                setPrevCount(data.length);
                 setBookings(data);
+
             }catch(err){
                 console.log(err);
             }
         };
+    useEffect(() => {
+ 
         fetchBookings();
+
+        const interval = setInterval(() => {
+            fetchBookings();
+        }, 5000);
+
+        return() => clearInterval(interval);
     },[]);
 
     const updateStatus = async(id,status)=>{
@@ -39,8 +55,22 @@ const ProviderDashboard = () => {
         }
     };
 
+    const showNotification = () => {
+        setToast(true);
+
+        const audio = new Audio("/notify.mp3");
+        audio.play();
+
+        setTimeout(() => setToast(false),3000)
+    }
+
     return(
         <div className="provider-page">
+            {toast && (
+                <div className="toast">
+                    🔔 New Booking Received !
+                </div>
+            )}
             <h1>Provider Dashboard</h1>
 
             <div className="dashboard-summary">
@@ -59,71 +89,78 @@ const ProviderDashboard = () => {
 
             </div>
 
-            <div className="provider-grid">
-                {bookings.map(booking => (
-                    <div className="provider-card" key={booking._id}>
-                        <h3>{booking.service.title}</h3>
+            {bookings.length === 0 ? (
+                <div className="empty">
+                    <h2>No Jobs Yet</h2>
+                    <p>Bookings will appear here</p>
+                </div>
+            ):(
+                <div className="provider-grid">
+                    {bookings.map(booking => (
+                        <div className="provider-card" key={booking._id}>
+                            <h3>{booking.service?.title}</h3>
 
-                        <p><b>Customer:</b>{booking.user.name}</p>
+                            <p><b>Customer:</b>{booking.user?.name || "Unknown"}</p>
 
-                        <p><b>Date:</b>{booking.date}</p>
+                            <p><b>Date:</b>{booking.date}</p>
 
-                        <p><b>Time:</b>{booking.time}</p>
+                            <p><b>Time:</b>{booking.time}</p>
 
-                        <p><b>Address:</b>{booking.address}</p>
+                            <p><b>Address:</b>{booking.address}</p>
 
-                        <p><b>Phone:</b>{booking.phone}</p>
+                            <p><b>Phone:</b>{booking.phone}</p>
 
-                        <p className={`status ${booking.status}`}>
-                            {booking.status === "pending" && "🟡 Pending"}
-                            {booking.status === "accepted" && "🟢 Accepted"}
-                            {booking.status === "on the way" && "🚗 On The Way"}
-                            {booking.status === "completed" && "✅ Completed"}
-                            {booking.status === "rejected" && "🔴 Rejected"}
-                        </p>
-                            <div className="action-buttons">
+                            <p className={`status ${(booking.status || "").replaceAll(" ","-")}`}>
+                                {booking.status === "pending" && "🟡 Pending"}
+                                {booking.status === "accepted" && "🟢 Accepted"}
+                                {booking.status === "on the way" && "🚗 On The Way"}
+                                {booking.status === "completed" && "✅ Completed"}
+                                {booking.status === "rejected" && "🔴 Rejected"}
+                            </p>
+                                <div className="action-buttons">
 
-                                {booking.status === "pending" && (
-                                    <>
+                                    {booking.status === "pending" && (
+                                        <>
 
-                                    <button 
-                                    className="accept-btn"
-                                    onClick={() => updateStatus(booking._id,"accepted")}
-                                    >
-                                        Accept
-                                    </button>
+                                        <button 
+                                        className="accept-btn"
+                                        onClick={() => updateStatus(booking._id,"accepted")}
+                                        >
+                                            Accept
+                                        </button>
 
-                                    <button 
-                                    className="reject-btn"
-                                    onClick={() => updateStatus(booking._id,"rejected")}
-                                    >
-                                        Reject
-                                    </button>
+                                        <button 
+                                        className="reject-btn"
+                                        onClick={() => updateStatus(booking._id,"rejected")}
+                                        >
+                                            Reject
+                                        </button>
 
-                                    </>
-                                )}
+                                        </>
+                                    )}
 
-                                {booking.status === "accepted" && booking.paymentStatus === "paid" && (
-                                    <button 
-                                    className="ontheway-btn"
-                                    onClick={() => updateStatus(booking._id,"on the way")}
-                                    >
-                                        On The Way
-                                    </button>
-                                )}
+                                    {booking.status === "accepted" && booking.paymentStatus === "paid" && (
+                                        <button 
+                                        className="ontheway-btn"
+                                        onClick={() => updateStatus(booking._id,"on the way")}
+                                        >
+                                            On The Way
+                                        </button>
+                                    )}
 
-                                {booking.status === "on the way" && (
-                                    <button className="complete-btn"
-                                    onClick={() => updateStatus(booking._id,"completed")}
-                                    >
-                                        Completed
-                                    </button>
-                                )}
+                                    {booking.status === "on the way" && (
+                                        <button className="complete-btn"
+                                        onClick={() => updateStatus(booking._id,"completed")}
+                                        >
+                                            Completed
+                                        </button>
+                                    )}
 
-                            </div>
-                    </div>
-                ))}
-            </div>
+                                </div>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }

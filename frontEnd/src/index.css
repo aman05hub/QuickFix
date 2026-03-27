@@ -39,11 +39,15 @@ body.dark .booking-card,
 body.dark .provider-card{
     background: #1e293b;
     color: white;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
 }
 
+body.dark .services-section,
 body.dark .how-section,
-body.dark .why-section{
-    background: 020617;
+body.dark .why-section,
+body.dark .provider-page,
+body.dark .bookings-page{
+    background: transparent;
 }
 
 body.dark h1,
@@ -58,10 +62,31 @@ body.dark a {
 }
 
 body.dark input,
-body.dark select{
+body.dark select,
+body.dark textarea{
     background: 1e293b;
     color: white;
     border: 1px solid #475569;
+}
+
+body.dark button{
+    opacity: 0.95;
+}
+
+body.dark .status.pending{
+    color: #facc15;
+}
+
+body.dark .status.accepted{
+    color: #22c55e;
+}
+
+body.dark .status.completed{
+    color: #3b82f6;
+}
+
+body.dark .status.rejected{
+    color: #ef4444;
 }
 
 body.dark .primary-btn{

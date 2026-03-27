@@ -5,24 +5,14 @@ async function createBooking(req,res){
     try{
         const { serviceId, date, time, address, phone } = req.body;
 
+        //Find service
         const service = await Service.findById(serviceId);
 
         if(!service){
             return res.status(400).json({ message: "Service not found "});
         }
 
-        const booking = await Booking.create({
-            user: req.user._id,
-            service: serviceId,
-            provider: service.provider,
-            date,
-            time,
-            address,
-            phone
-        });
-
-        res.status(201).json(booking);
-
+        //Check duplicate
         const existingBooking = await Booking.findOne({
             user: req.user._id,
             service: serviceId,
@@ -35,6 +25,21 @@ async function createBooking(req,res){
                 message: "You already booked this service at this time"
             });
         }
+
+        //Create Booking
+        const booking = await Booking.create({
+            user: req.user._id,
+            service: serviceId,
+            provider: service.provider,
+            serviceType: service.title.toLocaleLowerCase(),
+            date,
+            time,
+            address,
+            phone
+        });
+
+        //Send response
+        res.status(201).json(booking);
 
     }catch(err){
         res.status(500).json({ message: err.message });

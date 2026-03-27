@@ -18,6 +18,14 @@ const userSchema = new mongoose.Schema({
         type:String,
         enum:["user","provider","admin"],
         default:"user"
+    },
+
+    serviceType: {
+        type: String,
+        enum: ["electrician", "plumber", "cleaning", "ac"],
+        required: function() {
+            return this.role === "provider";
+        }
     }
 }, 
 {

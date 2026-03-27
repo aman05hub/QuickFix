@@ -115,7 +115,7 @@ transition: 0.3s;
 position:absolute;
 right:0;
 top:40px;
-background:white;
+background:transparent;
 border-radius:8px;
 box-shadow:0 8px 20px rgba(0,0,0,0.2);
 display:flex;
@@ -144,7 +144,7 @@ animation: dropdownfade 0.3s ease forwards;
 .dropdown a{
 padding:10px;
 text-decoration:none;
-color:black;
+background:transparent;
 }
 
 .dropdown button{
@@ -155,9 +155,19 @@ cursor:pointer;
 text-align:left;
 }
 
+body.dark .dropdown{
+  background: #1e293b;
+  color: white;
+}
+
 .dropdown a:hover,
 .dropdown button:hover{
 background:#f2f2f2;
+}
+
+body.dark .dropdown a:hover,
+body.dark .dropdown button:hover{
+  background: #334155;
 }
 
 /* ---------------- MOBILE ---------------- */

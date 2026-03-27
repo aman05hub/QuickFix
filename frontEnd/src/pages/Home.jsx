@@ -8,6 +8,10 @@ const Home = () => {
         <div className="home">
             <section className="hero">
 
+                <div className="container hero-content">
+
+                <div className="hero-left">
+
                 <div className="search-box">
                     <input 
                         type="text" 
@@ -16,9 +20,6 @@ const Home = () => {
                     <button>Search</button>
                 </div>
 
-                <div className="container hero-content">
-
-                    <div className="hero-text">
                         <h1>Book Trusted Local Services Instantly</h1>
                         <p className="hero-subtext">Find electricians, plumbers, cleaners and more near you.</p>
 
@@ -32,7 +33,8 @@ const Home = () => {
                             </Link>
                         </div>
                     </div>
-                    <div className="hero-image">
+
+                    <div className="hero-right">
                         <img src="/service.svg" alt="service" />
                     </div>
 

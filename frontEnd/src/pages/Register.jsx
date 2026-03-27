@@ -8,7 +8,8 @@ const Register = () => {
         name: "",
         email: "",
         password: "",
-        role: "user"
+        role: "user",
+        serviceType: ""
     });
 
     const navigate = useNavigate();
@@ -67,16 +68,31 @@ const Register = () => {
                             type="button"
                             className={form.role==="user" ? "role-btn active":"role-btn"}
                             onClick={()=>setRole("user")}
-                        >User
+                        >👤 User
                         </button>
 
                         <button
                             type="button"
                             className={form.role==="provider" ? "role-btn active":"role-btn"}
                             onClick={()=>setRole("provider")}
-                        >Provider
+                        >🛠 Provider
                         </button>
                     </div>
+
+                    {form.role === "provider" && (
+                        <select
+                        name="serviceType"
+                        value={form.serviceType}
+                        onChange={handleChange}
+                        required
+                        >
+                            <option value="">Select Your Service</option>
+                            <option value="electrician">Electrician</option>
+                            <option value="plumber">Plumber</option>
+                            <option value="cleaning">Cleaning</option>
+                            <option value="ac">AC Service</option>
+                        </select>
+                    )}
 
                     <button className="auth-btn">Create Account</button>
                 </form>

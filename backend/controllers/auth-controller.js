@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 //Register
 async function register(req,res){
     try{
-        const { name,email,password,role } = req.body;
+        const { name,email,password,role,serviceType } = req.body;
 
         if (!name || !email || !password) {
             return res.status(400).json({ message: "All fields are required" });
@@ -25,7 +25,8 @@ async function register(req,res){
             name,
             email,
             password:hashedPassword,
-            role
+            role,
+            serviceType
         });
 
         res.status(201).json({

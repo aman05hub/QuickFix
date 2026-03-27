@@ -12,16 +12,21 @@
 .hero {
   padding: 100px 20px;
   background: transparent;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
 }
 
 .hero-content{
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 40px;
+
 }
 
-.hero-text {
-  max-width: 700px;
+.hero-left {
+  max-width: 500px;
   animation: fadeUp 1s ease;
 }
 
@@ -36,8 +41,14 @@
   }
 }
 
+.hero-left h1 {
+  font-size: 42px;
+  margin-bottom: 15px;;
+}
+
 .hero-subtext{
   margin-top: 10px;
+  margin-bottom: 20px;
   font-size: 16px;
   color: #555;
 }
@@ -64,7 +75,7 @@
   display: flex;
   margin-top: 20px;
   gap: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 .search-box input{
@@ -91,6 +102,7 @@
   color: white;
   border-radius: 8px;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .primary-btn:hover {
@@ -110,7 +122,7 @@
 transform: scale(1.05);
 }
 
-.hero-image svg {
+.hero-right img {
   width: 350px;
 }
 
@@ -229,7 +241,7 @@ body.dark .service-box input {
     justify-content: center;
   }
 
-  .hero-image svg {
+  .hero-right img {
     width: 250px;
   }
 
@@ -237,6 +249,8 @@ body.dark .service-box input {
     overflow-x: auto;
     flex-wrap: nowrap;
     padding-bottom: 10px;
+    flex-direction: column;
+    align-items: center;
   }
 
   .services-section h2{

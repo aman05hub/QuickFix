@@ -41,6 +41,10 @@ const bookingSchema = new mongoose.Schema({
         type:String,
         enum:["unpaid","paid"],
         default:"unpaid"
+    },
+    serviceType:{
+        type: String,
+        required: true
     }
 },{
     timestamps:true

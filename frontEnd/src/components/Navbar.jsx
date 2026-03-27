@@ -27,7 +27,8 @@ const Navbar = () => {
         return () => window.removeEventListener("scroll",handleScroll);
     }, [darkMode]);
 
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
 
     const logout = () => {
         localStorage.removeItem("token");
@@ -53,9 +54,20 @@ const Navbar = () => {
                     </button>
 
                     <Link to="/"> Home </Link>
-                    <Link to="/services">Services</Link>
-                    
-                    {token && <Link to="/my-bookings">My Bookings</Link>}
+
+                    {role === "user" && (
+                        <>
+                            <Link to="/services">Services</Link>
+                            <Link to="/my-bookings">My Bookings</Link>
+                        </>
+                    )}
+
+                    {role === "provider" && (
+                        <>
+                            <Link to="/provider-dashboard">Dashboard</Link>
+                            <Link to="/provider-dashboard">Jobs</Link>
+                        </>
+                    )}
 
                     {!token && (
                         <Link to = "/login">
@@ -73,8 +85,6 @@ const Navbar = () => {
 
                             {dropdownOpen && (
                                 <div className="dropdown">
-                                    <Link to="/my-bookings">My Bookings</Link>
-
                                     <button onClick={logout}>Logout</button>
                                 </div>
                             )}
@@ -84,6 +94,7 @@ const Navbar = () => {
                     
                 </div>
 
+                {/* Mobile menu */}
                 <div 
                     className="menu-toggle" 
                     onClick={() => setMenuOpen(!menuOpen)}

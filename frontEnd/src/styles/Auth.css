@@ -52,7 +52,7 @@
 }
 
 .auth-box option{
-    color:black;
+    background:transparent;
     
 }
 
@@ -109,27 +109,45 @@
 .role-select{
 display:flex;
 gap:10px;
-margin-bottom:15px;
+margin:15px 0;
 }
 
 .role-btn{
 flex:1;
-padding:10px;
-border-radius:8px;
-border:1px solid rgba(255,255,255,0.4);
-background:rgba(255,255,255,0.15);
+padding:12px;
+border-radius:10px;
+border:2px solid rgba(255,255,255,0.3);
+background:transparent;
 color:white;
 cursor:pointer;
+font-weight: 500;
 transition:0.3s;
 }
 
 .role-btn:hover{
-background:rgba(255,255,255,0.3);
+background:rgba(255,255,255,0.1);
 }
 
 .role-btn.active{
-background:#ff7a18;
+background:linear-gradient(135deg,#ff7a18,#ffb347);
 border:none;
+color: white;
+}
+
+select{
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 2px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.1);
+    color: white;
+    outline: none;
+    font-size: 14px;
+}
+
+select option{
+    color: black;
 }
 
 .form-message{

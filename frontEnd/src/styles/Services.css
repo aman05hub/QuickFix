@@ -19,7 +19,7 @@
 }
 
 .service-card {
-  background: white;
+  background: transparent;
   border-radius: 15px;
   padding: 30px;
   text-align: center;
@@ -66,6 +66,33 @@
   width: 40px;
   height: 40px;
   fill: #4f46e5;
+}
+
+body.dark .services-page{
+  background: transparent;
+}
+
+body.dark .services-section{
+  background: transparent;
+}
+
+body.dark .service-card{
+  background: #1e293b;
+  color: #e5e7eb;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+}
+
+body.dark .service-card h3{
+  color: #f1f5f9;
+}
+
+body.dark .service-card p{
+  color: #cbd5f5;
+}
+
+body.dark .service-card button{
+  background: #6366f1;
+  color: white;
 }
 
 @media (max-width: 1024px) {
