@@ -32,6 +32,7 @@ async function createBooking(req,res){
             service: serviceId,
             provider: service.provider,
             serviceType: service.title.toLocaleLowerCase(),
+            price: service.price,
             date,
             time,
             address,

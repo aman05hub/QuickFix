@@ -22,6 +22,7 @@ const Login = () => {
 
             localStorage.setItem("token", data.token);
             localStorage.setItem("role", data.user.role);
+            localStorage.setItem("user", JSON.stringify(data.user));
 
             if(data.user.role === "provider"){
                 navigate("/provider-dashboard");

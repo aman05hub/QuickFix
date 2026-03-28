@@ -6,6 +6,7 @@ const authRouters = require("./routes/auth-route");
 const { protect } = require("./middleware/auth-middleware");
 const serviceRoutes = require("./routes/service-route");
 const bookingRoutes = require("./routes/booking-route");
+const userRoutes = require("./routes/user-route");
 
 dotenv.config();
 const app = express();
@@ -13,6 +14,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/api/auth", authRouters)
+app.use("/api/user", userRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/bookings", bookingRoutes)
 

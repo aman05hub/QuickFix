@@ -29,6 +29,7 @@ const Navbar = () => {
 
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
+    const user = JSON.parse(localStorage.getItem("user"));
 
     const logout = () => {
         localStorage.removeItem("token");
@@ -66,6 +67,7 @@ const Navbar = () => {
                         <>
                             <Link to="/provider-dashboard">Dashboard</Link>
                             <Link to="/provider-dashboard">Jobs</Link>
+                            <Link to="/provider/earnings">Earnings</Link>
                         </>
                     )}
 
@@ -85,6 +87,19 @@ const Navbar = () => {
 
                             {dropdownOpen && (
                                 <div className="dropdown">
+                                    <div className="user-info">
+                                        <p className="user-name">
+                                            {user?.name}
+                                            {user?.role === "provider" && (
+                                                <span className="provider-type">
+                                                    {" "}({user?.providerType})
+                                                </span>
+                                            )}
+                                        </p>
+                                        <p className="user-email">{user?.email}</p>
+                                    </div>
+                                    <hr />
+                                    <Link to="/profile">Profile</Link>
                                     <button onClick={logout}>Logout</button>
                                 </div>
                             )}

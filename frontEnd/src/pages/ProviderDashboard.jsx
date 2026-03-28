@@ -5,7 +5,7 @@ import "../styles/ProviderDashboard.css"
 const ProviderDashboard = () => {
 
     const [bookings,setBookings] = useState([]);
-    const [prevCount, setPrevCount] = useState(0);
+    const [prevBookings, setPrevBookings] = useState([]);
     const [toast, setToast] = useState(false);
 
     const pendingCount = bookings.filter(b => b.status === "pending").length;
@@ -13,16 +13,19 @@ const ProviderDashboard = () => {
     const completedCount = bookings.filter(b => b.status === "completed").length;
 
 
-    const fetchBookings = async()=>{
-
+    const fetchBookings = async() => {
             try{
                 const {data} = await API.get("/bookings/provider");
                 
-                if(data.length > prevCount){
+                const prevIds = prevBookings.map(b => b._id);
+
+                const newBooking = data.find(b => !prevIds.includes(b._id))
+
+                if(newBooking && prevBookings.length !== 0){
                     showNotification();
                 }
 
-                setPrevCount(data.length);
+                setPrevBookings(data);
                 setBookings(data);
 
             }catch(err){
@@ -109,6 +112,8 @@ const ProviderDashboard = () => {
                             <p><b>Address:</b>{booking.address}</p>
 
                             <p><b>Phone:</b>{booking.phone}</p>
+
+                            <p><b>Price:</b>₹{booking.price}</p>
 
                             <p className={`status ${(booking.status || "").replaceAll(" ","-")}`}>
                                 {booking.status === "pending" && "🟡 Pending"}

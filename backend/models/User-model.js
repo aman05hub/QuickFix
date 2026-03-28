@@ -26,6 +26,11 @@ const userSchema = new mongoose.Schema({
         required: function() {
             return this.role === "provider";
         }
+    },
+
+    profilePic:{
+        type: String,
+        default: ""
     }
 }, 
 {

@@ -121,6 +121,11 @@ margin-bottom:30px;
 flex-wrap:wrap;
 }
 
+.summary-card.earnings{
+    background: #ede9fe;
+    color: #4c1d95;
+}
+
 .summary-card{
 padding:15px 25px;
 border-radius:10px;
