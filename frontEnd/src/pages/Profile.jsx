@@ -23,6 +23,7 @@ const Profile = () => {
     const [message, setMessage] = useState("");
     const [preview, setPreview] = useState(null);
     const [loading, setLoading] = useState(false)
+    const [progress, setProgress] = useState(0);
 
     const handleChange = (e) => {
         setForm({...form, [e.target.name]: e.target.value});
@@ -47,7 +48,14 @@ const Profile = () => {
         try{
             setLoading(true);
 
-            const { data } = await API.post("/user/upload-profile", formData);
+            const { data } = await API.post("/user/upload-profile", formData, {
+                onUploadProgress: (progressEvent) => {
+                    const percent = Math.round(
+                        (progressEvent.loaded * 100) / progressEvent.total
+                    );
+                    setProgress(percent);
+                }
+            });
 
             localStorage.setItem("user", JSON.stringify(data.user))
             setUser(data.user);
@@ -62,6 +70,23 @@ const Profile = () => {
             setTimeout(() => setMessage(""), 3000);
         } finally {
             setLoading(false);
+            setProgress(0);
+
+        }
+    }
+
+    const handleDelete = async () => {
+        try {
+            const { data } = await API.delete("/user/delete-profile");
+
+            localStorage.setItem("user", JSON.stringify(data.user));
+            setUser(data.user)
+
+            setMessage("Profile Photo Remove");
+            setTimeout(() => setMessage(""),3000);
+
+        } catch (err) {
+            console.log(err);
         }
     }
 
@@ -97,7 +122,17 @@ const Profile = () => {
             <button onClick={handleUpload} className="upload-btn" disabled={loading}>
                 {loading ? "Uploading..." : "Upload Photo"}
             </button>
+            <button onClick={handleDelete} className="delete-btn">
+                Delete Photo
+            </button>
             {loading && <div className="loader"></div>}
+            {loading && (
+                <div className="progress-container">
+                    <div className="progress-bar" style={{ width: `${progress}%`}}>
+                        {progress}%
+                    </div>
+                </div>
+            )}
 
             <hr style={{ margin: "30px 0"}} />
 

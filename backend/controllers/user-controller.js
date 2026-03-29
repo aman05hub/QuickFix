@@ -27,4 +27,21 @@ const uploadProfilePic = async (req, res) => {
     }
 }
 
-module.exports = uploadProfilePic;
+const deleteProfilePic = async (req, res) => {
+    try{
+        const user = await User.findByIdAndUpdate(
+            req.user._id,
+            { profilePic: "" },
+            { new: true }
+        );
+
+        res.json({ message : "Profile photo removed", user });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}
+
+module.exports = {
+    uploadProfilePic,
+    deleteProfilePic
+};

@@ -7,6 +7,7 @@ const Services = () => {
 
     const [services, setServices] = useState([]);
     const [selectedService, setSelectService] = useState(null);
+    const [message, setMessage] = useState("")
 
     useEffect(() => {
         const fetchServices = async () => {
@@ -21,6 +22,41 @@ const Services = () => {
         fetchServices();
     }, [])
 
+    const handlePayment = async (service) => {
+        try {
+            //Create order
+            const { data } = await API.post("/payment/create-order", {
+                amount: service.price
+            });
+
+            //Razorpay options
+            const options = {
+                key: "rzp_test_SX3VcRByLnbH2h",
+                amount: data.amount,
+                currency: "INR",
+                order_id: data.id,
+
+                handler: function (response){
+                    setMessage("Payment Successful ✅");
+
+                    setTimeout(() => {
+                        setMessage("")
+                    }, 3000);
+                }
+            };
+
+            //Open Razorpay
+            const rzp = new window.Razorpay(options);
+            rzp.open();
+
+        } catch(err){
+            setMessage("Payment Failed ❌");
+
+            setTimeout(() => {
+                setMessage("");
+            }, 3000);
+        }
+    };
    
 
     const getIcon = (title) => {
@@ -64,6 +100,8 @@ const Services = () => {
         <div className="services-page">
             <h1 className="title">Available Services</h1>
 
+            {message && <div className="payment-msg">{message}</div> }
+
             <div className="services-grid">
                 {services.map((service) => (
                     <div className="service-card" key={service._id}>
@@ -74,7 +112,19 @@ const Services = () => {
                         <p>{service.description}</p>
                         <p><b>₹{service.price}</b></p>
 
-                        <button className="book-btn" onClick={() => setSelectService(service._id)}>Book Now</button>
+                        <button 
+                            className="pay-btn" 
+                            onClick={() => handlePayment(service)}
+                        >
+                                Pay ₹{service.price}
+                        </button>
+
+                        <button 
+                            className="book-btn" 
+                            onClick={() => setSelectService(service._id)}
+                        >
+                            Book Now
+                        </button>
 
                     </div>
                 ))}

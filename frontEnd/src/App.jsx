@@ -8,6 +8,7 @@ import MyBookings from "./pages/MyBookings";
 import ProviderDashboard from "./pages/ProviderDashboard";
 import Earnings from "./pages/Earnings";
 import Profile from "./pages/Profile";
+import Chat from "./pages/Chat";
 
 function App() {
   return(
@@ -24,6 +25,7 @@ function App() {
         <Route path="/provider-dashboard" element={<ProviderDashboard/>}/>
         <Route path="/provider/earnings" element={<Earnings />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/chat" element={<Chat />} />
       </Routes>
     </BrowserRouter>
   );
