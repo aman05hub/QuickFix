@@ -13,12 +13,14 @@ const PaymentModel = ({ booking, closeModel, updatePayment }) => {
 
             setLoading(true);
             await API.put(`/bookings/${booking._id}/pay`);
-            setSuccess(true);
+            
             updatePayment(booking._id);
+            closeModel();
+            setSuccess(true);
 
             setTimeout(() => {
-                closeModel();
-            },2000);
+                window.location.reload();
+            },1500);
 
         }catch(err){
             console.log(err);

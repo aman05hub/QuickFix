@@ -105,7 +105,7 @@ async function payBooking(req, res){
             return res.status(404).json({ message: "Booking not found" });
         }
 
-        booking.paymentStatus = "paid"
+        booking.paymentStatus = "paid";
 
         await booking.save();
 
@@ -116,10 +116,39 @@ async function payBooking(req, res){
     }
 }
 
+async function createBookingAfterPayment(req, res){
+    try{
+        const { serviceId, date, time, address, phone } = req.body;
+
+        const service = await Service.findById(serviceId);
+
+        if(!service){
+            return res.status(400).json({ message: "Service not found"});
+
+        }
+        const booking = await Booking.create({
+            user: req.user._id,
+            service: serviceId,
+            provider: service.provider,
+            serviceType: service.title.toLowerCase(),
+            price: service.price,
+            date,
+            time,
+            address,
+            phone,
+            paymentStatus: "paid"
+        });
+        res.json(booking);
+    } catch(err){
+        res.status(500).json({ message: err.message });
+    }
+}
+
 module.exports = { 
     createBooking, 
     getMyBookings, 
     getProviderBookings,
     updateBookingStatus,
-    payBooking
+    payBooking,
+    createBookingAfterPayment
  };

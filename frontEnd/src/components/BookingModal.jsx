@@ -26,27 +26,46 @@ const BookingModal = ({ serviceId, closeModal }) => {
         try{
             setLoading(true)
 
-            const bookingDate = {
-                serviceId,
-                date,
-                time,
-                address,
-                phone
+            //Get service details price
+            const { data: service } = await API.get(`/services/${serviceId}`);
+
+            const { data } = await API.post("/payment/create-order", {
+                amount: service.price
+            });
+
+            const options = {
+                key: "rzp_test_SX3VcRByLnbH2h",
+                amount: data.amount,
+                currency: "INR",
+                order_id: data.id,
+
+                handler: async function () {
+                    await API.post("/bookings/after-payment", {
+                        serviceId,
+                        date,
+                        time,
+                        address,
+                        phone
+                    });
+
+                    setSuccess(true);
+
+                    setTimeout(() => {
+                        closeModel();
+                    },2000);
+                }
             };
 
-            await API.post("/bookings/create", bookingDate);
-
-            setSuccess(true);
-
-            setTimeout(()=>{
-            closeModal();
-            },2000);
+            const rzp = new window.Razorpay(options);
+            rzp.open();
 
         }catch(err){
             console.log(err);
+            setError("Payment failed ❌");
         }finally{
-            setLoading(false);
+            setLoading(false)
         }
+
     };
     const timeSlots = ["09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00"];
 

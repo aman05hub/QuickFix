@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { createBooking, getMyBookings, getProviderBookings, updateBookingStatus, payBooking } = require("../controllers/booking-controller");
+const { createBooking, getMyBookings, getProviderBookings, updateBookingStatus, payBooking, createBookingAfterPayment } = require("../controllers/booking-controller");
 const { protect, authorizeRoles } = require("../middleware/auth-middleware");
 
 //Only user can create booking
@@ -17,5 +17,7 @@ router.put("/:id/status", protect, authorizeRoles("provider"), updateBookingStat
 
 //User pays for booking
 router.put("/:id/pay",protect, authorizeRoles("user"), payBooking)
+
+router.post("/after-payment", protect, createBookingAfterPayment);
 
 module.exports = router;

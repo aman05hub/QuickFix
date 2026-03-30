@@ -3,6 +3,7 @@ import API from "../services/api";
 import "../styles/MyBookings.css";
 import PaymentModel from "../components/PaymentModel";
 import BookingTimeline from "../components/BookingTimeline";
+import ChatBox from "../components/ChatBox";
 
 const MyBookings = () => {
 
@@ -49,17 +50,19 @@ const MyBookings = () => {
                         </div>
 
                         <div className={`status-indicator ${
-                            booking.paymentStatus === "paid" ? "green" : "red"}`}>
-                        </div>
+                            booking.paymentStatus === "paid" ? "green" : "red"}`} 
+                            title={booking.paymentStatus}
+                        />
+                        
 
                         <BookingTimeline
                         status={booking.status}
                         paymentStatus={booking.paymentStatus}
                         />
 
-                        <p className={`payment-badge ${booking.paymentStatus}`}>
-                            {booking.paymentStatus}
-                        </p>
+                        {booking.status === "accepted" && (
+                            <ChatBox bookingId={booking._id} />
+                        )}
 
                         {booking.status === "accepted" && booking.paymentStatus === "unpaid" && (
 
@@ -74,20 +77,27 @@ const MyBookings = () => {
                 ))}
             </div>
 
-                {selectedBooking && (
+            {selectedBooking && (
 
-                    <PaymentModel
-                    booking={selectedBooking}
-                    closeModel={() => setSelectedBooking(null)}
-                    updatePayment={(id) => 
+                <PaymentModel
+                booking={selectedBooking}
+                closeModel={() => setSelectedBooking(null)}
+                    
+                    updatePayment={(id) => { 
                         setBookings(prev => 
-                            prev.map(b =>
-                                b._id === id ? {...b, paymentStatus:"paid"} : b
-                            )
-                        )
-                    }
-                    />
-                )}
+                            prev.map(b => {
+                                if(b._id === id){
+                                    return{
+                                        ...b,
+                                        paymentStatus: "paid"
+                                    };
+                                }
+                                return b;
+                            })
+                        );
+                    }}
+                />
+            )}
         </div>
     )
 }

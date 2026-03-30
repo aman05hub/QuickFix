@@ -12,6 +12,11 @@ const Register = () => {
         serviceType: ""
     });
 
+    const [otp, setOtp] = useState("");
+    const [step, setStep] = useState(1);
+    const [message, setMessage] = useState("");
+    const [error, setError] = useState("");
+
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -22,80 +27,116 @@ const Register = () => {
         setForm({...form,role});
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try{
-            await API.post("/auth/register", form);
-            alert("Registered successfully");
-            navigate("/login");
-
-        }catch(err){
-            alert(err.response?.data?.message || "Registration failed")
+    const sendOtp = async () => {
+        try {
+            await API.post("/auth/send-otp", {email: form.email })
+            setStep(2);
+            setMessage("OTP send to your email 📧");
+            setError("");
+        } catch (err) {
+            setError("Failed to send OTP");
         }
-    };
+    }
+
+    const verifyOtp = async () => {
+        try{
+            await API.post("/auth/verify-otp", {
+                ...form,
+                otp
+            });
+
+            setMessage("Registration successful ✅");
+            setError("");
+
+            setTimeout(() => {
+                navigate("/login");
+            }, 1500);
+        } catch (err) {
+            setError("Invaild OTP ❌")
+        }
+    }
+
 
     return (
         <div className="auth-container">
             <div className="auth-box">
                 <h2>Create Account</h2>
-                <form onSubmit={handleSubmit}>
 
-                    <input name="name" 
-                    placeholder="Full Name" 
-                    value={form.name}
-                    onChange={handleChange} 
-                    />
+                {step === 1 && (
+                    <>
 
-                    <input name="email"
-                    type="email" 
-                    placeholder="Email"
-                    autoComplete="email" 
-                    value={form.email}
-                    onChange={handleChange} 
-                    />
+                        <input name="name" 
+                        placeholder="Full Name" 
+                        value={form.name}
+                        onChange={handleChange} 
+                        />
 
-                    <input name="password" 
-                    type="password" 
-                    placeholder="Password"
-                    autoComplete="new-password" 
-                    value={form.password}
-                    onChange={handleChange} 
-                    />
-                
-                    <div className="role-select">
+                        <input name="email"
+                        type="email" 
+                        placeholder="Email" 
+                        value={form.email}
+                        onChange={handleChange} 
+                        />
 
-                        <button
-                            type="button"
-                            className={form.role==="user" ? "role-btn active":"role-btn"}
-                            onClick={()=>setRole("user")}
-                        >👤 User
+                        <input name="password" 
+                        type="password" 
+                        placeholder="Password" 
+                        value={form.password}
+                        onChange={handleChange} 
+                        />
+                    
+                        <div className="role-select">
+
+                            <button
+                                type="button"
+                                className={form.role==="user" ? "role-btn active":"role-btn"}
+                                onClick={()=>setRole("user")}
+                            >👤 User
+                            </button>
+
+                            <button
+                                type="button"
+                                className={form.role==="provider" ? "role-btn active":"role-btn"}
+                                onClick={()=>setRole("provider")}
+                            >🛠 Provider
+                            </button>
+                        </div>
+
+                        {form.role === "provider" && (
+                            <select
+                            name="serviceType"
+                            value={form.serviceType}
+                            onChange={handleChange}
+                            required
+                            >
+                                <option value="">Select Your Service</option>
+                                <option value="electrician">Electrician</option>
+                                <option value="plumber">Plumber</option>
+                                <option value="cleaning">Cleaning</option>
+                                <option value="ac">AC Service</option>
+                            </select>
+                        )}
+
+                        <button className="auth-btn" onClick={sendOtp}>Send OTP</button>
+                    </>
+                )}
+
+                {step === 2 && (
+                    <>
+                        <input 
+                            placeholder="Enter OTP"
+                            value={otp}
+                            onChange={(e) => setOtp(e.target.value)}
+                        />
+
+                        <button className="auth-btn" onClick={verifyOtp}>
+                            Verify & Register
                         </button>
+                    </>
+                )}
 
-                        <button
-                            type="button"
-                            className={form.role==="provider" ? "role-btn active":"role-btn"}
-                            onClick={()=>setRole("provider")}
-                        >🛠 Provider
-                        </button>
-                    </div>
-
-                    {form.role === "provider" && (
-                        <select
-                        name="serviceType"
-                        value={form.serviceType}
-                        onChange={handleChange}
-                        required
-                        >
-                            <option value="">Select Your Service</option>
-                            <option value="electrician">Electrician</option>
-                            <option value="plumber">Plumber</option>
-                            <option value="cleaning">Cleaning</option>
-                            <option value="ac">AC Service</option>
-                        </select>
-                    )}
-
-                    <button className="auth-btn">Create Account</button>
-                </form>
+                {message && <p className="success">{message}</p> }
+                {error && <p className="error">{error}</p> }
 
                 <p className="auth-link">
                     Already have account? <Link to="/login">Login</Link>

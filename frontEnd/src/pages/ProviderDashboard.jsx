@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import API from "../services/api";
-import "../styles/ProviderDashboard.css"
+import "../styles/ProviderDashboard.css";
+import ChatBox from "../components/ChatBox";
 
 const ProviderDashboard = () => {
 
@@ -122,46 +123,52 @@ const ProviderDashboard = () => {
                                 {booking.status === "completed" && "✅ Completed"}
                                 {booking.status === "rejected" && "🔴 Rejected"}
                             </p>
-                                <div className="action-buttons">
 
-                                    {booking.status === "pending" && (
-                                        <>
+                            <div className="action-buttons">
 
-                                        <button 
-                                        className="accept-btn"
-                                        onClick={() => updateStatus(booking._id,"accepted")}
-                                        >
-                                            Accept
-                                        </button>
+                                {booking.status === "pending" && (
+                                    <>
 
-                                        <button 
-                                        className="reject-btn"
-                                        onClick={() => updateStatus(booking._id,"rejected")}
-                                        >
-                                            Reject
-                                        </button>
+                                    <button 
+                                    className="accept-btn"
+                                    onClick={() => updateStatus(booking._id,"accepted")}
+                                    >
+                                        Accept
+                                    </button>
 
-                                        </>
-                                    )}
+                                    <button 
+                                    className="reject-btn"
+                                    onClick={() => updateStatus(booking._id,"rejected")}
+                                    >
+                                        Reject
+                                    </button>
 
-                                    {booking.status === "accepted" && booking.paymentStatus === "paid" && (
-                                        <button 
-                                        className="ontheway-btn"
-                                        onClick={() => updateStatus(booking._id,"on the way")}
-                                        >
-                                            On The Way
-                                        </button>
-                                    )}
+                                    </>
+                                )}
 
-                                    {booking.status === "on the way" && (
-                                        <button className="complete-btn"
-                                        onClick={() => updateStatus(booking._id,"completed")}
-                                        >
-                                            Completed
-                                        </button>
-                                    )}
+                                {booking.status === "accepted" && booking.paymentStatus === "paid" && (
+                                    <button 
+                                    className="ontheway-btn"
+                                    onClick={() => updateStatus(booking._id,"on the way")}
+                                    >
+                                        On The Way
+                                    </button>
+                                )}
 
-                                </div>
+                                {booking.status === "on the way" && (
+                                    <button className="complete-btn"
+                                    onClick={() => updateStatus(booking._id,"completed")}
+                                    >
+                                        Completed
+                                    </button>
+                                )}
+
+                            </div>
+
+                            {booking.status === "accepted" && (
+                                <ChatBox bookingId={booking._id} />
+                            )}
+                            
                         </div>
                     ))}
                 </div>

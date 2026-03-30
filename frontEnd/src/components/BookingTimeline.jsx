@@ -3,18 +3,23 @@ import "../styles/BookingTimeline.css";
 
 const BookingTimeline = ({ status, paymentStatus }) => {
 
-    const steps = ["pending","accepted","paid","on the way","completed"];
+    const steps = ["Booked","Paid","Accepted","On Way","Completed"];
 
     const getCurrentStep = () => {
 
+        //Payment done
+        if(paymentStatus === "paid" && status === "pending") return 1;
+        
+        //Booked
         if(status === "pending") return 0;
 
-        if(status === "accepted" && paymentStatus === "unpaid") return 1;
+        //Accepted after payment
+        if(status === "accepted") return 2;
 
-        if(status === "accepted" && paymentStatus === "paid") return 2;
+        //On the way
+        if(status === "on way") return 3;
 
-        if(status === "on the way") return 3;
-
+        //Completed
         if(status === "completed") return 4;
 
         return 0;
@@ -22,7 +27,7 @@ const BookingTimeline = ({ status, paymentStatus }) => {
 
     const currentStep = getCurrentStep();
 
-    const progressWidth = (currentStep / (steps.length - 1)) * 100;
+    const progressWidth = (currentStep / (steps.length - 1)) * 90;
 
     return(
 
@@ -30,7 +35,7 @@ const BookingTimeline = ({ status, paymentStatus }) => {
 
             <div className="timeline-line"></div>
 
-            <div className="timeline-prgress" style={{ width: `${progressWidth}%` }}></div>
+            <div className="timeline-progress" style={{ width: `${progressWidth}%` }}></div>
 
             <div className="timeline-steps">
 
@@ -42,11 +47,26 @@ const BookingTimeline = ({ status, paymentStatus }) => {
                         index <= currentStep ? "active" : ""
                     }`}>
 
-                        <div className="circle"></div>
+                        <div className="circle">
+                            {index === 0 && "📦"}
+                            {index === 1 && "💳"}
+                            {index === 2 && "🤝"}
+                            {index === 3 && "🚚"}
+                            {index === 4 && "🎉"}
+                        </div>
+
                         <span>{step}</span>
                     </div>
                     ))}
             </div>
+
+            {paymentStatus !== "paid" && (
+                <div className="unpaid-tag">💰 Payment Pending</div>
+            )}
+
+            {paymentStatus === "paid" && (
+                <div className="paid-tag">💳 Paid</div>
+            )}
         </div>
     )
 }

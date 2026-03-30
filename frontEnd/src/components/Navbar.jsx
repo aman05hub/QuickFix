@@ -66,7 +66,6 @@ const Navbar = () => {
                     {role === "provider" && (
                         <>
                             <Link to="/provider-dashboard">Dashboard</Link>
-                            <Link to="/provider-dashboard">Jobs</Link>
                             <Link to="/provider/earnings">Earnings</Link>
                         </>
                     )}
