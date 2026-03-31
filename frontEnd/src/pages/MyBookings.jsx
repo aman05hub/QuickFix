@@ -15,7 +15,6 @@ const MyBookings = () => {
         const fetchBookings = async () => {
             
             try{
-
                 const { data } = await API.get("/bookings/my");
                 setBookings(data);
 
