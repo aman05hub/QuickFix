@@ -50,6 +50,12 @@ async function login(req, res){
             return res.status(400).json({ message: "Email not found"});
         }
 
+        if(user.role === "provider" && !user.isApproved){
+            return res.status(403).json({
+                message: "Wait for admin approval ⌛"
+            })
+        }
+
         //compare password
         const isMatch = await bcrypt.compare(password, user.password);
         if(!isMatch){

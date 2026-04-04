@@ -126,7 +126,7 @@ const Register = () => {
                         <input 
                             placeholder="Enter OTP"
                             value={otp}
-                            onChange={(e) => setOtp(e.target.value)}
+                            onChange={(e) => setOtp(e.target.value.trim())}
                         />
 
                         <button className="auth-btn" onClick={verifyOtp}>

@@ -31,9 +31,14 @@ const userSchema = new mongoose.Schema({
         enum: ["electrician", "plumber", "cleaning", "ac"],
         required: function() {
             return this.role === "provider";
-        }
+        },
+        default: null
     },
-
+    isApproved: {
+        type: Boolean,
+        default: false
+    },
+    
     profilePic:{
         type: String,
         default: ""

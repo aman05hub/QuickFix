@@ -12,6 +12,7 @@ const bookingRoutes = require("./routes/booking-route");
 const userRoutes = require("./routes/user-route");
 const paymentRoutes = require("./routes/payment-route");
 const chatRoutes = require("./routes/chat-route");
+const adminRoutes = require("./routes/admin-route");
 
 dotenv.config();
 
@@ -51,6 +52,7 @@ app.use("/api/services", serviceRoutes);
 app.use("/api/bookings", bookingRoutes)
 app.use("/api/payment", paymentRoutes);
 app.use("/api/chat", chatRoutes);
+app.use("/api/admin", adminRoutes);
 
 mongoose.connect(process.env.MONGO_URL)
 .then(() => console.log("MongoDB Connected"))

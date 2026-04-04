@@ -33,10 +33,33 @@ router.post("/send-otp", async (req, res) => {
             );
 
         await transporter.sendMail({
-            from: process.env.EMAIL_USER,
+            from: `"QuickFix" <${process.env.EMAIL_USER}>`,
             to: email,
             subject: "QuickFix OTP Verifiction",
-            text: `Your OTP is ${otp}`
+            html: `
+    <div style="font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px;">
+        <div style="max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 10px; text-align: center;">
+            
+            <h2 style="color: #333;"><img style="align-item:center;" src="https://ik.imagekit.io/nuavc0dai/service.svg" width="150" /> </h2>
+            
+            <h3 style="color: #444;">OTP Verification</h3>
+            
+            <p style="color: #666;">Use the OTP below to complete your registration:</p>
+            
+            <div style="font-size: 28px; font-weight: bold; color: #2d89ef; margin: 20px 0;">
+                ${otp}
+            </div>
+            
+            <p style="color: #999;">This OTP is valid for 5 minutes ⏱️</p>
+            
+            <hr style="margin: 20px 0;">
+            
+            <p style="font-size: 12px; color: #aaa;">
+                If you did not request this, please ignore this email.
+            </p>
+        </div>
+    </div>
+    `
         });
 
         res.json({ message: "OTP send successfully 📧"});
@@ -53,7 +76,7 @@ router.post("/verify-otp", async(req, res) => {
         const { email, otp, name, password, role, serviceType } = req.body;
         const user = await User.findOne({ email });
 
-        if(!user || user.otp !== otp) {
+        if(!user || user.otp !== String(otp).trim()) {
             return res.status(400).json({ message: "Invalid OTP ❌"});
         }
 
@@ -65,8 +88,16 @@ router.post("/verify-otp", async(req, res) => {
 
         user.name = name;
         user.password = hashedPassword;
-        user.role = role;
-        user.serviceType = role === "provider" ? serviceType : "";
+        if (role === "provider") {
+            user.isApproved = false;
+        } else {
+            user.isApproved = true;
+        }
+        
+        if (role === "provider"){
+            user.serviceType = serviceType;
+        }
+        
         user.isVerified = true;
 
         // Clear OTP after use
