@@ -106,6 +106,8 @@ async function payBooking(req, res){
         }
 
         booking.paymentStatus = "paid";
+        booking.paymentId = "PAY_" + Date.now();
+        booking.paymentEmail = req.user.email;
 
         await booking.save();
 

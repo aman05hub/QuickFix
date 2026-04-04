@@ -42,6 +42,12 @@ const bookingSchema = new mongoose.Schema({
         enum:["unpaid","paid"],
         default:"unpaid"
     },
+    paymentId:{
+        type: String
+    },
+    paymentEmail:{
+        type: String
+    },
     serviceType:{
         type: String,
         required: true
