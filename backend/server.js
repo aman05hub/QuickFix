@@ -20,7 +20,7 @@ const app = express();
 const server = http.createServer(app);
 
 const io = new Server(server, {
-    core: {
+    cors: {
         origin: "http://localhost:5173",
         methods:["GET", "POST"]
     }
@@ -66,7 +66,8 @@ app.get("/api/protected",protect,(req,res) => {
         user: req.user
     });
 });
+const PORT = process.env.PORT || 5000;
 
-server.listen(5000, () => {
+server.listen(PORT, () => {
     console.log("Server is running on port 5000")
 })
