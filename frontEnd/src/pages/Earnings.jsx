@@ -24,9 +24,9 @@ const Earnings = () => {
         const now = new Date();
 
         return bookings.filter(b => {
-            if(b.status !== "completed") return false;
+            if(b.status !== "completed" || b.paymentStatus !== "paid" ) return false;
 
-            const bookingDate = new Date(b.date);
+            const bookingDate = new Date(b.date + "T00:00:00");
 
             if(filter === "today"){
                 return bookingDate.toDateString() === now.toDateString();
@@ -52,30 +52,31 @@ const Earnings = () => {
     const total = filterBookings()
         .reduce((sum, b) => sum + (b.price || 0), 0);
 
-    const monthlyData = filterBookings()
+    const monthlyData = Object.values(filterBookings()
         .reduce((acc, b) => {
+            const monthIndex = new Date(b.date).getMonth();
+
             const month = new Date(b.date).toLocaleString("default", { month: "short" });
 
-            const exist = acc.find(item => item.month === month);
-
-            if(exist){
-                exist.earnings += b.price || 0;
-            } else {
-                acc.push({ month, earnings: b.price || 0});
+            if (!acc[month]) {
+                acc[month] = { month, earnings: 0, Index: monthIndex };
             }
 
+            acc[month].earnings += b.price || 0;
+
             return acc;
-        }, []);
+        }, {})
+    ).sort((a, b) => a.index - b.index );
 
         return (
             <div className="earnings-page">
                 <h1>💰 Earnings</h1>
 
                 <div className="filter-buttons">
-                    <button onClick={() => setFilter("all")}>All</button>
-                    <button onClick={() => setFilter("today")}>Today</button>
-                    <button onClick={() => setFilter("week")}>This Week</button>
-                    <button onClick={() => setFilter("month")}>This Month</button>
+                    <button className={filter === "all" ? "active" : ""} onClick={() => setFilter("all")}>All</button>
+                    <button className={filter === "today" ? "active" : ""} onClick={() => setFilter("today")}>Today</button>
+                    <button className={filter === "week" ? "active" : ""} onClick={() => setFilter("week")}>This Week</button>
+                    <button className={filter === "month" ? "active" : ""} onClick={() => setFilter("month")}>This Month</button>
                 </div>
 
                 <div className="earnings-card">
@@ -84,6 +85,10 @@ const Earnings = () => {
 
                 <div className="chart-box">
                     <h3>Monthly Earnings</h3>
+
+                    {monthlyData.length === 0 && (
+                        <p className="no-data">No earnings data</p>
+                    )}
 
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart data={monthlyData}>

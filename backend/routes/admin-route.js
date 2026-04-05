@@ -28,7 +28,7 @@ router.get("/payments", protect, authorizeRoles("admin"), async (req,res) => {
         .populate("user","name email")
         .populate("service");
 
-    res.json(payments);
+    res.json(payment.filter(p => p.service));
 })
 
 module.exports = router;

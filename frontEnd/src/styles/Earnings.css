@@ -34,6 +34,17 @@
     color: white;
 }
 
+.filter-buttons button.active{
+    background: #22c55e;
+    color: white;
+}
+
+.no-data {
+    text-align: center;
+    opacity: 0.6;
+    margin-top: 20px;
+}
+
 .chart-box{
     margin-top: 40px;
     background: white;
