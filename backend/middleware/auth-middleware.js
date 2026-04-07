@@ -5,36 +5,48 @@ async function protect(req,res,next){
     try{
         let token;
 
-        if(req.headers.authorization && 
-            req.headers.authorization.startsWith("Bearer")){
-                token = req.headers.authorization.split(" ")[1];
+        //Check Authorization header
+        if(
+            req.headers.authorization && 
+            req.headers.authorization.startsWith("Bearer")
+        ){
+            token = req.headers.authorization.split(" ")[1];
         }
 
+        //No token
         if(!token){
-            return res.status(401).json({ message: "Not authorized" });
+            return res.status(401).json({ 
+                success: false,
+                message: "Not authorized, token missing" 
+            });
         }
 
+        //Verify token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        req.user = await User.findById(decoded.id).select("-password");
+        //Get user from DB
+        const user = await User.findById(decoded.id).select("-password");
+
+        if(!user){
+            return res.status(401).json({
+                success: false,
+                message: "User not found",
+            })
+        }
+
+        //Attach full user
+        req.user = user;
 
         next();
 
     }catch(err){
-        res.status(401).json({ message:"Token failed" });
+       console.error("Auth Middleware Error:", err);
+
+       return res.status(401).json({
+        success: false,
+        message: "Invalid or expired token",
+       })
     }
 }
 
-//Role based access
-function authorizeRoles(...roles){
-    return (req,res,next) => {
-        if(!roles.includes(req.user.role)){
-            return res.status(403).json({
-                message: "You are not allowed to access this resource"
-            });
-        }
-        next();
-    }
-}
-
-module.exports = { protect, authorizeRoles };
+module.exports = { protect };

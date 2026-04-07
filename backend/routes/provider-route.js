@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const Booking = require("../models/Booking-model");
-const { protect, authorizeRoles } = require("../middleware/auth-middleware");
+const { protect } = require("../middleware/auth-middleware");
+const allowRoles = require("../middleware/role-middleware");
 
 // Provider earning
-router.get("/earnings", protect, authorizeRoles("provider"), async (req, res) => {
+router.get("/earnings", protect, allowRoles("provider"), async (req, res) => {
     try{
         const bookings = await Booking.find({
             provider: req.user._id,

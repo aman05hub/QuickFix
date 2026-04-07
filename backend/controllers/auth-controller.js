@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 //Register
 async function register(req,res){
     try{
-        const { name,email,password,role,serviceType } = req.body;
+        const { name,email,password,role,serviceType,profession } = req.body;
 
         if (!name || !email || !password) {
             return res.status(400).json({ message: "All fields are required" });
@@ -26,7 +26,9 @@ async function register(req,res){
             email,
             password:hashedPassword,
             role,
-            serviceType
+            serviceType,
+            profession: role === "provider" ? profession : null,
+            isApproved: role === "provider" ? false : true,
         });
 
         res.status(201).json({
@@ -52,6 +54,7 @@ async function login(req, res){
 
         if(user.role === "provider" && !user.isApproved){
             return res.status(403).json({
+                success: false,
                 message: "Wait for admin approval ⌛"
             })
         }

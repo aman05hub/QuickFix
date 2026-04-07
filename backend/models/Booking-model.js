@@ -17,7 +17,7 @@ const bookingSchema = new mongoose.Schema({
         required:true
     },
     date:{
-        type:String,
+        type: Date,
         required:true
     },
     time:{
@@ -32,9 +32,13 @@ const bookingSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    price:{
+        type:Number,
+        required:true
+    },
     status:{
         type:String,
-        enum:["pending","accepted","rejected","on the way","completed"],
+        enum:["pending","accepted","rejected","on_the_way","completed"],
         default:"pending"
     },
     paymentStatus:{
@@ -52,7 +56,8 @@ const bookingSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-},{
+},
+{
     timestamps:true
 });
 

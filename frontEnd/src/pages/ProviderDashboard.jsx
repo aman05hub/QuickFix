@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import API from "../services/api";
+import { useNavigate } from "react-router-dom";
 import "../styles/ProviderDashboard.css";
-import ChatBox from "../components/ChatBox";
 
 const ProviderDashboard = () => {
+    const navigate = useNavigate();
 
     const [bookings,setBookings] = useState([]);
     const [prevBookings, setPrevBookings] = useState([]);
@@ -14,25 +15,26 @@ const ProviderDashboard = () => {
     const completedCount = bookings.filter(b => b.status === "completed").length;
 
 
+    //Fetch bookings
     const fetchBookings = async() => {
-            try{
-                const {data} = await API.get("/bookings/provider");
+        try{
+            const {data} = await API.get("/bookings/provider");
                 
-                const prevIds = prevBookings.map(b => b._id);
+            const prevIds = prevBookings.map(b => b._id);
+            const newBooking = data.find(b => !prevIds.includes(b._id))
 
-                const newBooking = data.find(b => !prevIds.includes(b._id))
-
-                if(newBooking && prevBookings.length !== 0){
-                    showNotification();
-                }
-
-                setPrevBookings(data);
-                setBookings(data);
-
-            }catch(err){
-                console.log(err);
+            if(newBooking && prevBookings.length !== 0){
+                showNotification();
             }
-        };
+
+            setPrevBookings(data);
+            setBookings(data);
+
+        }catch(err){
+            console.log(err);
+        }
+    };
+
     useEffect(() => {
  
         fetchBookings();
@@ -42,12 +44,13 @@ const ProviderDashboard = () => {
         }, 5000);
 
         return() => clearInterval(interval);
-    },[]);
+    }, []);
 
+    //Update booking status
     const updateStatus = async(id,status)=>{
 
         try{
-            const {data} = await API.put(`/bookings/${id}/status`,{status});
+            await API.put(`/bookings/${id}/status`,{status});
 
             setBookings(prev => 
                 prev.map(b =>
@@ -59,6 +62,7 @@ const ProviderDashboard = () => {
         }
     };
 
+    //Show notification
     const showNotification = () => {
         setToast(true);
 
@@ -70,6 +74,7 @@ const ProviderDashboard = () => {
 
     return(
         <div className="provider-page">
+
             {toast && (
                 <div className="toast">
                     🔔 New Booking Received !
@@ -102,11 +107,12 @@ const ProviderDashboard = () => {
                 <div className="provider-grid">
                     {bookings.map(booking => (
                         <div className="provider-card" key={booking._id}>
+                            
                             <h3>{booking.service?.title}</h3>
 
                             <p><b>Customer:</b>{booking.user?.name || "Unknown"}</p>
 
-                            <p><b>Date:</b>{booking.date}</p>
+                            <p><b>Date:</b>{new Date(booking.date).toLocaleDateString()}</p>
 
                             <p><b>Time:</b>{booking.time}</p>
 
@@ -121,7 +127,7 @@ const ProviderDashboard = () => {
                                 {booking.status === "accepted" && "🟢 Accepted"}
                                 {booking.status === "on the way" && "🚗 On The Way"}
                                 {booking.status === "completed" && "✅ Completed"}
-                                {booking.status === "rejected" && "🔴 Rejected"}
+                                {booking.status === "cancelled" && "🔴 Cancelled"}
                             </p>
 
                             <div className="action-buttons">
@@ -138,7 +144,7 @@ const ProviderDashboard = () => {
 
                                     <button 
                                     className="reject-btn"
-                                    onClick={() => updateStatus(booking._id,"rejected")}
+                                    onClick={() => updateStatus(booking._id,"cancelled")}
                                     >
                                         Reject
                                     </button>
@@ -155,7 +161,7 @@ const ProviderDashboard = () => {
                                     </button>
                                 )}
 
-                                {booking.status === "on the way" && (
+                                {booking.status === "on_the_way" && (
                                     <button className="complete-btn"
                                     onClick={() => updateStatus(booking._id,"completed")}
                                     >
@@ -165,8 +171,12 @@ const ProviderDashboard = () => {
 
                             </div>
 
-                            {booking.status === "accepted" && (
-                                <ChatBox bookingId={booking._id} />
+                            {(booking.status === "accepted" || booking.status === "on_the_way") && (
+                                <button className="chat-btn"
+                                onClick={() => navigate(`/chat/${booking._id}`)}
+                                >
+                                    💬 Open Chat
+                                </button>
                             )}
                             
                         </div>

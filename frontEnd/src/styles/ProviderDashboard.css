@@ -197,6 +197,29 @@ color:#004085;
     opacity: 0.7;
 }
 
+.chat-btn{
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+body.dark .chat-btn{
+    background: #444;
+}
+
+.chat-btn:hover{
+    background: #0056b3;
+}
+
+body.dark .chat-btn:hover{
+    background: #666;
+}
+
 body.dark .provider-page{
     background: #0f172a;
 }

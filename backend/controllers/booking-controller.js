@@ -16,13 +16,12 @@ async function createBooking(req,res){
         const existingBooking = await Booking.findOne({
             user: req.user._id,
             service: serviceId,
-            date,
-            time
+            status: { $ne: "completed" },
         });
 
         if(existingBooking){
             return res.status(400).json({
-                message: "You already booked this service at this time"
+                message: "You already have an active booking for this service",
             });
         }
 
@@ -33,7 +32,7 @@ async function createBooking(req,res){
             provider: service.provider,
             serviceType: service.title.toLocaleLowerCase(),
             price: service.price,
-            date,
+            date : new Date(date),
             time,
             address,
             phone
@@ -134,7 +133,7 @@ async function createBookingAfterPayment(req, res){
             provider: service.provider,
             serviceType: service.title.toLowerCase(),
             price: service.price,
-            date,
+            date: new Date(date),
             time,
             address,
             phone,
