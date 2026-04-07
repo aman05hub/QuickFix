@@ -38,9 +38,10 @@ app.use("/api/chat", chatRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/provider", providerRoutes);
 
-mongoose.connect(process.env.MONGO_URL)
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.log(err))
+mongoose.connect(process.env.MONGO_URL);
+
+mongoose.connection.on("connected", () => console.log("MongoDB Connected"));
+mongoose.connection.on("error", (err) => console.log(err));
 
 app.get("/",(req,res) => {
     res.send("Backend Running..")

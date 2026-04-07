@@ -70,6 +70,12 @@ const Navbar = () => {
                         </>
                     )}
 
+                    {role === "admin" && (
+                        <>
+                            <Link to="/admin">Admin Dashboard</Link>
+                        </>
+                    )}
+
                     {!token && (
                         <Link to = "/login">
                             <button className="login-btn">Login</button>
