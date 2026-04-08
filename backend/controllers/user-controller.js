@@ -16,7 +16,10 @@ const uploadProfilePic = async (req, res) => {
 
         const user = await User.findByIdAndUpdate(
             req.user._id,
-            { profilePic: result.url},
+            { 
+                profilePic: result.url,
+                profilePicId: result.fileId,
+            },
             { new: true }
         );
 
@@ -41,7 +44,26 @@ const deleteProfilePic = async (req, res) => {
     }
 }
 
+const updateProfile = async (req, res) => {
+    try{
+        const user = await User.findByIdAndUpdate(
+            req.user._id,
+        {
+            name: req.body.name,
+            email: req.body.email,
+        },
+        { new: true }
+    );
+
+    res.json(user);
+
+    } catch (err){
+        res.status(500).json({ message: err.message })
+    }
+}
+
 module.exports = {
     uploadProfilePic,
-    deleteProfilePic
+    deleteProfilePic,
+    updateProfile
 };

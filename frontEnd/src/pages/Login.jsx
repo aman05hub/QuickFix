@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import API from "../services/api";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import toast from "react-hot-toast";
 import "../styles/Auth.css"
 
 const Login = () => {
@@ -21,17 +22,22 @@ const Login = () => {
             const { data } = await API.post("/auth/login", form);
 
             localStorage.setItem("token", data.token);
-            localStorage.setItem("role", data.user.role);
             localStorage.setItem("user", JSON.stringify(data.user));
 
+            window.dispatchEvent(new Event("storage"));
+
+            toast.success("login successful");
+            
             if(data.user.role === "provider"){
                 navigate("/provider-dashboard");
+            } else if (data.user.role === "admin"){
+                navigate("/admin");
             } else {
                 navigate("/");
             }
 
         }catch(err){
-            alert(err.response?.data?.message || "Login failed");
+            toast.error(err.response?.data?.message || "Login failed");
         }
     };
 
@@ -54,8 +60,10 @@ const Login = () => {
                     name="password" 
                     type="password" 
                     placeholder="Password"
-                    autoComplete="current-password" 
-                    onChange={handleChange} 
+                    autoComplete="current-password"
+                    value={form.password} 
+                    onChange={handleChange}
+                    required 
                     />
                     
                     <button className="auth-btn">Login</button>

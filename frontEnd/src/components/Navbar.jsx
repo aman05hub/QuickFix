@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa"
 import "../styles/Navbar.css";
 
+
 const Navbar = () => {
 
     const navigate = useNavigate();
@@ -11,10 +12,31 @@ const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
+    //Dark Mode
     const [darkMode, setDarkMode] = useState(() => {
         return localStorage.getItem("darkMode") === "true";
     });
 
+    //Auth state
+    const [auth, setAuth] = useState({
+        token: localStorage.getItem("token"),
+        user: JSON.parse(localStorage.getItem("user")),
+    })
+
+    //Listen for auth changes(login/logout/profile change)
+    useEffect(() => {
+        const updateAuth = () => {
+            setAuth({
+                token: localStorage.getItem("token"),
+                user: JSON.parse(localStorage.getItem("user")),
+            });
+        }
+
+        window.addEventListener("storage",updateAuth);
+        return () => window.removeEventListener("storage",updateAuth);
+    }, []);
+
+    //Dark mode + Scroll effect
     useEffect(() => {
         document.body.classList.toggle("dark", darkMode);
         localStorage.setItem("darkMode", darkMode);
@@ -23,18 +45,18 @@ const Navbar = () => {
             setScrolled(window.scrollY > 20);
         };
 
-        window.addEventListener("scroll",handleScroll);
-        return () => window.removeEventListener("scroll",handleScroll);
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
     }, [darkMode]);
-
-    const token = localStorage.getItem("token");
-    const role = localStorage.getItem("role");
-    const user = JSON.parse(localStorage.getItem("user"));
+    
 
     const logout = () => {
         localStorage.removeItem("token");
-        localStorage.removeItem("role");
-        navigate("/login")
+        localStorage.removeItem("user");
+
+        window.dispatchEvent(new Event("storage"));
+
+        navigate("/login");
     };
 
     return(
@@ -48,7 +70,8 @@ const Navbar = () => {
 
                 <div className={`nav-links ${menuOpen ? "active" : ""}`}>
 
-                    <button className="dark-btn"
+                    <button 
+                    className="dark-btn"
                     onClick={() => setDarkMode(!darkMode)}
                     >
                         {darkMode ? "☀️" : "🌙"}
@@ -56,54 +79,70 @@ const Navbar = () => {
 
                     <Link to="/"> Home </Link>
 
-                    {role === "user" && (
+                    {auth.user?.role === "user" && (
                         <>
                             <Link to="/services">Services</Link>
                             <Link to="/my-bookings">My Bookings</Link>
                         </>
                     )}
 
-                    {role === "provider" && (
+                    {auth.user?.role === "provider" && (
                         <>
                             <Link to="/provider-dashboard">Dashboard</Link>
                             <Link to="/provider/earnings">Earnings</Link>
+                            <Link to="/add-service">Add Service</Link>
                         </>
                     )}
 
-                    {role === "admin" && (
+                    {auth.user?.role === "admin" && (
                         <>
                             <Link to="/admin">Admin Dashboard</Link>
                         </>
                     )}
 
-                    {!token && (
+                    {!auth.token && (
                         <Link to = "/login">
                             <button className="login-btn">Login</button>
                         </Link>
                     )}
 
-                    {token && (
+                    {auth.token && (
                         <div className="user-menu">
 
-                            <FaUserCircle
-                            className="user-icon"
-                            onClick={() => setDropdownOpen(!dropdownOpen)}
-                            />
+                            {auth.user?.profilePic ? (
+                                <img
+                                src={auth.user.profilePic}
+                                alt="profile"
+                                className="nav-profile-img"
+                                onClick={() => setDropdownOpen(!dropdownOpen)}
+                                />
+                            ) : (
+                                <FaUserCircle 
+                                className="user-icon"
+                                onClick={() => setDropdownOpen(!dropdownOpen)}
+                                />
+                            
+                            )}
 
                             {dropdownOpen && (
                                 <div className="dropdown">
                                     <div className="user-info">
                                         <p className="user-name">
-                                            {user?.name}
-                                            {user?.role === "provider" && (
+                                            {auth.user?.name}
+                                            {auth.user?.role === "provider" && (
                                                 <span className="provider-type">
-                                                    {" "}({user?.providerType})
+                                                    {" "}({auth.user?.providerType})
                                                 </span>
                                             )}
                                         </p>
-                                        <p className="user-email">{user?.email}</p>
+
+                                        <p className="user-email">
+                                            {auth.user?.email}
+                                        </p>
                                     </div>
+
                                     <hr />
+
                                     <Link to="/profile">Profile</Link>
                                     <button onClick={logout}>Logout</button>
                                 </div>

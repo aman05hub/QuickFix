@@ -3,19 +3,31 @@ const mongoose = require("mongoose");
 const serviceSchema = new mongoose.Schema({
     title:{
         type:String,
-        required: true
+        required: true,
+        trim: true,
     },
-    description:String,
+
+    description:{
+        type: String,
+        default: "",
+    },
+
     price:{
-        type:Number
+        type:Number,
+        required: true,
+        min: 0,
     },
+
     category:{
         type:String,
-        required:true
+        required:true,
+        enum:["electrician","plumber","cleaning","ac"]
     },
+
     provider: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:"User"
+        ref:"User",
+        required: true,
     }
 },
 {

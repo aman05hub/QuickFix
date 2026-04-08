@@ -9,9 +9,9 @@ const sendMessage = async (req, res) => {
         const booking = await Booking.findById(bookingId);
 
         //allow if accepted
-        if (booking.status !== "accepted") {
+        if (!booking ||booking.status !== "pending") {
             return res.status(400).json({
-                message: "Chat only acailable after booking accepted",
+                message: "Chat only allowed after booking accepted",
             });
         }
 
@@ -21,7 +21,18 @@ const sendMessage = async (req, res) => {
             message,
         });
 
+        //EMIT Real-Time message
+        req.io.to(bookingId).emit("receive_message",{
+            bookingId,
+            message,
+            sender: {
+                _id: req.user._id,
+                name: req.user.name,
+            },
+        })
+
         res.json(chat);
+        
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

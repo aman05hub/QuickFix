@@ -179,6 +179,19 @@ text-align:left;
   font-weight: 500;
 }
 
+.nav-profile-img{
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.user-icon{
+  font-size:30px;
+  cursor: pointer;
+}
+
 body.dark .dropdown{
   background: #1e293b;
   color: white;

@@ -3,12 +3,12 @@
     text-align: center;
 }
 
-.profile-img{
+.profile-page-img{
     width: 120px;
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #4f46e5;
+    border: 3px solid #6c63ff;
 }
 
 .success-msg{

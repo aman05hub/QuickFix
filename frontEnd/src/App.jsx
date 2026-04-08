@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Services from "./pages/Services";
@@ -9,12 +10,16 @@ import ProviderDashboard from "./pages/ProviderDashboard";
 import Earnings from "./pages/Earnings";
 import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
+import ChatPage from "./pages/ChatPage";
+import AddService from "./pages/addService";
 
 function App() {
   return(
     <BrowserRouter>
 
-    <Navbar />
+      <Toaster position="top-right" />
+
+      <Navbar />
 
       <Routes>
         <Route path="/register" element={<Register/>}/>
@@ -26,7 +31,10 @@ function App() {
         <Route path="/provider/earnings" element={<Earnings />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/admin" element={<Admin />}/>
+        <Route path="/chat/:bookingId" element={<ChatPage />} />
+        <Route path="/add-service" element={<AddService />} />
       </Routes>
+
     </BrowserRouter>
   );
 }

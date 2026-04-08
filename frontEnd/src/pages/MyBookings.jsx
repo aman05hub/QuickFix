@@ -3,7 +3,6 @@ import API from "../services/api";
 import "../styles/MyBookings.css";
 import PaymentModel from "../components/PaymentModel";
 import BookingTimeline from "../components/BookingTimeline";
-import ChatBox from "../components/ChatBox";
 
 const MyBookings = () => {
 

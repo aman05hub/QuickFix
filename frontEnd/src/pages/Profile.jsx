@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import API from "../services/api";
+import toast from "react-hot-toast";
 import "../styles/Profile.css";
 
 const Profile = () => {
@@ -12,15 +13,14 @@ const Profile = () => {
         }
     }) 
 
+    //form state
     const [form, setForm] = useState({
         name: user?.name || "",
         email: user?.email || ""
     });
 
-    console.log(localStorage.getItem("user"))
-
+    //Image state
     const [image, setImage] = useState(null);
-    const [message, setMessage] = useState("");
     const [preview, setPreview] = useState(null);
     const [loading, setLoading] = useState(false)
     const [progress, setProgress] = useState(0);
@@ -29,18 +29,26 @@ const Profile = () => {
         setForm({...form, [e.target.name]: e.target.value});
     };
 
-    const handleSave = () => {
-        const updatedUser = {...user, ...form};
+    //Save progile DB + Navbar update
+    const handleSave = async () => {
+        try{
+            const { data } = await API.put("/user/update-profile", form);
 
-        localStorage.setItem("user", JSON.stringify(updatedUser));
-        setUser(updatedUser);
+            //Save updated user
+            localStorage.setItem("user", JSON.stringify(data));
+            setUser(data);
 
-        setMessage("Profile Updated Successfully");
-        setTimeout(() => setMessage(""), 3000);
+            //Update Navbar
+            window.dispatchEvent(new Event("storage"));
+
+            toast.success("Profile updated successfully");
+        } catch(err){
+            toast.error("Update failed");
+        }
     };
 
     const handleUpload = async () => {
-        if (!image) return;
+        if (!image) return toast.error("Select image");;
 
         const formData = new FormData();
         formData.append("image", image);
@@ -60,14 +68,15 @@ const Profile = () => {
             localStorage.setItem("user", JSON.stringify(data.user))
             setUser(data.user);
 
-            setPreview(null);
+            //Navbar update
+            window.dispatchEvent(new Event("storage"));
 
-            setMessage("Profile Photo Updated");
-            setTimeout(() => setMessage(""), 3000);
+            setPreview(null);
+            toast.success("Profile Photo Updated");
 
         } catch (err) {
-            setMessage("Upload Failed");
-            setTimeout(() => setMessage(""), 3000);
+            toast.error("Upload Failed");
+
         } finally {
             setLoading(false);
             setProgress(0);
@@ -82,11 +91,13 @@ const Profile = () => {
             localStorage.setItem("user", JSON.stringify(data.user));
             setUser(data.user)
 
-            setMessage("Profile Photo Remove");
-            setTimeout(() => setMessage(""),3000);
+            //Navbar update
+            window.dispatchEvent(new Event("storage"));
+
+            toast.success("Profile Photo Removed");
 
         } catch (err) {
-            console.log(err);
+            toast.error("Delete Failed");
         }
     }
 
@@ -95,12 +106,12 @@ const Profile = () => {
 
             <h2>👤 Profile</h2>
 
-            {message && <p className="success-msg">{message}</p>}
+            {<p className="success-msg"></p>}
 
             <img 
                 src={preview || user?.profilePic || "/default.png"}
                 alt="profile"
-                className="profile-img" 
+                className="profile-page-img" 
             />
 
             <br /><br />
@@ -119,13 +130,20 @@ const Profile = () => {
 
             <br /><br />
 
-            <button onClick={handleUpload} className="upload-btn" disabled={loading}>
+            <button 
+            onClick={handleUpload} 
+            className="upload-btn" 
+            disabled={loading}
+            >
                 {loading ? "Uploading..." : "Upload Photo"}
             </button>
+            
             <button onClick={handleDelete} className="delete-btn">
                 Delete Photo
             </button>
+
             {loading && <div className="loader"></div>}
+
             {loading && (
                 <div className="progress-container">
                     <div className="progress-bar" style={{ width: `${progress}%`}}>
