@@ -6,7 +6,7 @@ import axios from "axios";
 import "../styles/chat.css";
 
 //Connect socket
-const socket = io("http://localhost:5000"); 
+const socket = io("https://quickfix-ttla.onrender.com"); 
 
 function ChatPage() {
     const { bookingId } = useParams();
@@ -39,7 +39,7 @@ function ChatPage() {
     //Fetch messages from DB
     const fetchMessages = async () => {
         try{
-            const res = await axios.get(`http://localhost:5000/api/chat/${bookingId}`);
+            const res = await axios.get(`https://quickfix-ttla.onrender.com/api/chat/${bookingId}`);
             console.log("Chat Data:", res.data);
 
             setMessages(res.data.messages || []);
@@ -67,7 +67,7 @@ function ChatPage() {
 
         //save in DB
         try{
-            await API.post("http://localhost:5000/api/chat",{
+            await API.post("https://quickfix-ttla.onrender.com/api/chat",{
                 bookingId,
                 message: text,
             });

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-    baseURL: "http://localhost:5000/api"
+    baseURL: "https://quickfix-ttla.onrender.com/api"
 });
 
 //Automatically sends token
