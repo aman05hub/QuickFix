@@ -31,14 +31,14 @@ const userSchema = new mongoose.Schema({
         default:"user"
     },
 
-    serviceType: {
-        type: String,
-        enum: ["electrician", "plumber", "cleaning", "ac"],
-        required: function() {
-            return this.role === "provider";
-        },
-        default: null
-    },
+    // serviceType: {
+    //     type: String,
+    //     enum: ["electrician", "plumber", "cleaning", "ac"],
+    //     required: function() {
+    //         return this.role === "provider";
+    //     },
+    //     default: null
+    // },
 
     isApproved: {
         type: Boolean,

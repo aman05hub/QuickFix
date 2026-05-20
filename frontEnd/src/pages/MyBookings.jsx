@@ -3,6 +3,7 @@ import API from "../services/api";
 import "../styles/MyBookings.css";
 import PaymentModel from "../components/PaymentModel";
 import BookingTimeline from "../components/BookingTimeline";
+import ChatPage from "./ChatPage";
 
 const MyBookings = () => {
 
@@ -59,9 +60,19 @@ const MyBookings = () => {
                         paymentStatus={booking.paymentStatus}
                         />
 
-                        {booking.status === "accepted" && (
-                            <ChatBox bookingId={booking._id} />
-                        )}
+                        {
+                            booking.status === "accepted" && (
+                                <button
+                                className="chat-btn"
+                                onClick={() => window.location.href = `/chat/${booking._id}`}>
+                                    💬 Chat with Provider
+                                </button>
+                            )
+                        }
+
+                        {/* {booking.status === "accepted" && (
+                            <ChatPage bookingId={booking._id} />
+                        )} */}
 
                         {booking.status === "accepted" && booking.paymentStatus === "unpaid" && (
 

@@ -9,7 +9,7 @@ const sendMessage = async (req, res) => {
         const booking = await Booking.findById(bookingId);
 
         //allow if accepted
-        if (!booking ||booking.status !== "pending") {
+        if (!booking ||booking.status !== "accepted") {
             return res.status(400).json({
                 message: "Chat only allowed after booking accepted",
             });

@@ -127,7 +127,7 @@ const Navbar = () => {
                             {dropdownOpen && (
                                 <div className="dropdown">
                                     <div className="user-info">
-                                        <p className="user-name">
+                                        <p className="user-name"> 
                                             {auth.user?.name}
                                             {auth.user?.role === "provider" && (
                                                 <span className="provider-type">

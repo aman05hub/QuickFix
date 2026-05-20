@@ -9,7 +9,7 @@ const Register = () => {
         email: "",
         password: "",
         role: "user",
-        serviceType: ""
+        profession: ""
     });
 
     const [otp, setOtp] = useState("");
@@ -104,8 +104,8 @@ const Register = () => {
 
                         {form.role === "provider" && (
                             <select
-                            name="serviceType"
-                            value={form.serviceType}
+                            name="profession"
+                            value={form.profession}
                             onChange={handleChange}
                             required
                             >

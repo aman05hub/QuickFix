@@ -14,7 +14,8 @@ function ChatPage() {
     const [messages, setMessages] = useState([]);
     const [text, setText] = useState("");
 
-    const userId = localStorage.getItem("userId");
+    const user = JSON.parse(localStorage.getItem("user"));
+    const userId = user?.id;
 
     //Load old messages + socket setup
     useEffect(() => {
@@ -38,8 +39,10 @@ function ChatPage() {
     //Fetch messages from DB
     const fetchMessages = async () => {
         try{
-            const res = await axios.get(`/api/chat/${bookingId}`);
-            setMessages(res.data);
+            const res = await axios.get(`http://localhost:5000/api/chat/${bookingId}`);
+            console.log("Chat Data:", res.data);
+
+            setMessages(res.data.messages || []);
         } catch(err) {
             console.log(err);
         }
@@ -60,9 +63,11 @@ function ChatPage() {
         //Real-time send
         socket.emit("send_message", messageData);
 
+        setMessages((prev) => [...prev, messageData]);
+
         //save in DB
         try{
-            await API.post("/chat",{
+            await API.post("http://localhost:5000/api/chat",{
                 bookingId,
                 message: text,
             });
@@ -81,13 +86,12 @@ function ChatPage() {
             </div>
 
             <div className="chat-box">
-                {messages.map((m, index) => (
-
-                    <div 
-                    key={index} 
+                {Array.isArray(messages) && messages.map((m, index) => (
+                    <div
+                    key={index}
                     className={
                         m.sender?._id === userId
-                        ? "message own" 
+                        ? "message OWN"
                         : "message"
                     }>
                         <p>{m.message}</p>
