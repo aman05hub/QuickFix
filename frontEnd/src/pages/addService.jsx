@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import API from "../services/api";
 import toast from "react-hot-toast";
-import "../styles/addService.css";
+import "../styles/AddService.css";
 
 const AddService = () => {
 
