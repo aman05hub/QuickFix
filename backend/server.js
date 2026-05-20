@@ -19,26 +19,19 @@ dotenv.config();
 
 const app = express();
 
-const { Server } = require("socket.io");
+const server = http.createServer(app);
 
-module.exports = (server) => {
-  const io = new Server(server, {
-    cors: {
-      origin: [
+const io = setupSocket(server);
+
+// Middlewares
+app.use(cors({
+    origin: [
         "http://localhost:5173",
         "https://quick-fix-mdud.onrender.com"
-      ],
-      methods: ["GET", "POST"],
-      credentials: true
-    }
-  });
+    ],
+    credentials: true
+}));
 
-  return io;
-};
-
-
-//Middlewares
-app.use(cors());
 app.use(express.json());
 
 app.use((req, res, next) => {
@@ -46,11 +39,11 @@ app.use((req, res, next) => {
     next();
 });
 
-//Routes
-app.use("/api/auth", authRouters)
+// Routes
+app.use("/api/auth", authRouters);
 app.use("/api/user", userRoutes);
 app.use("/api/services", serviceRoutes);
-app.use("/api/bookings", bookingRoutes)
+app.use("/api/bookings", bookingRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/admin", adminRoutes);
@@ -61,18 +54,19 @@ mongoose.connect(process.env.MONGO_URL);
 mongoose.connection.on("connected", () => console.log("MongoDB Connected"));
 mongoose.connection.on("error", (err) => console.log(err));
 
-app.get("/",(req,res) => {
-    res.send("Backend Running..")
-})
+app.get("/", (req, res) => {
+    res.send("Backend Running..");
+});
 
-app.get("/api/protected",protect,(req,res) => {
+app.get("/api/protected", protect, (req, res) => {
     res.json({
-        message: "You accessed protected route", 
+        message: "You accessed protected route",
         user: req.user
     });
 });
 
 const PORT = process.env.PORT || 5000;
+
 server.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`)
-})
+    console.log(`Server is running on port ${PORT}`);
+});
