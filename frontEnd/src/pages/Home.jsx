@@ -45,7 +45,6 @@ const Home = () => {
   return (
     <div className="home">
 
-      {/* HERO */}
       <section className="hero">
         <div className="blob blob-1" />
         <div className="blob blob-2" />
@@ -107,7 +106,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* SERVICES */}
       <section className="services-section">
         <div className="container">
           <div className="section-header reveal">
@@ -131,7 +129,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
       <section className="how-section">
         <div className="container">
           <div className="section-header reveal">
@@ -151,7 +148,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* WHY QUICKFIX */}
       <section className="why-section">
         <div className="container">
           <div className="section-header reveal">
@@ -173,7 +169,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* CTA */}
       <section className="cta-section">
         <div className="container cta-inner reveal">
           <h2>Ready to get your home fixed?</h2>

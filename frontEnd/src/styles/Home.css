@@ -13,7 +13,6 @@
   padding: 0 24px;
 }
 
-/* ─── SCROLL REVEAL ─── */
 .reveal {
   opacity: 0;
   transform: translateY(32px);
@@ -24,7 +23,6 @@
   transform: translateY(0);
 }
 
-/* ─── SECTION HEADER ─── */
 .section-header {
   text-align: center;
   margin-bottom: 50px;
@@ -53,7 +51,6 @@
   font-size: 15px;
 }
 
-/* ─── HERO ─── */
 .hero {
   position: relative;
   min-height: 90vh;
@@ -63,7 +60,6 @@
   overflow: hidden;
 }
 
-/* decorative blobs */
 .blob {
   position: absolute;
   border-radius: 50%;
@@ -91,7 +87,6 @@
   gap: 48px;
 }
 
-/* hero left */
 .hero-left {
   max-width: 520px;
   animation: heroFadeUp 0.8s ease both;
@@ -139,7 +134,6 @@
   margin-bottom: 28px;
 }
 
-/* search */
 .search-box {
   display: flex;
   align-items: center;
@@ -184,7 +178,6 @@
 }
 .search-box button:hover { opacity: 0.9; transform: scale(1.02); }
 
-/* buttons */
 .hero-buttons {
   display: flex;
   gap: 12px;
@@ -234,7 +227,6 @@
   background: #f5f3ff;
 }
 
-/* stats */
 .hero-stats {
   display: flex;
   align-items: center;
@@ -248,7 +240,6 @@
   background: #e0e7ff;
 }
 
-/* hero right */
 .hero-right {
   flex-shrink: 0;
   animation: heroFadeUp 0.8s 0.2s ease both;
@@ -262,7 +253,6 @@
   filter: drop-shadow(0 20px 40px rgba(79,70,229,0.15));
 }
 
-/* floating cards */
 .floating-card {
   position: absolute;
   background: #fff;
@@ -285,7 +275,6 @@
   50%       { transform: translateY(-8px); }
 }
 
-/* ─── SERVICES ─── */
 .services-section {
   padding: 90px 0;
   background: #fff;
@@ -335,7 +324,6 @@
 }
 .service-link:hover { gap: 10px; }
 
-/* ─── HOW IT WORKS ─── */
 .how-section {
   padding: 90px 0;
   background: #f8f7ff;
@@ -347,7 +335,7 @@
   gap: 32px;
   position: relative;
 }
-/* connecting line */
+
 .steps-grid::before {
   content: '';
   position: absolute;
@@ -384,7 +372,6 @@
 .step-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
 .step-card p  { font-size: 13px; color: #6b7280; line-height: 1.6; }
 
-/* ─── WHY QUICKFIX ─── */
 .why-section {
   padding: 90px 0;
   background: #fff;
@@ -420,7 +407,6 @@
 .why-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
 .why-card p  { font-size: 13px; color: #6b7280; line-height: 1.6; }
 
-/* ─── CTA BANNER ─── */
 .cta-section {
   padding: 80px 24px;
   background: linear-gradient(135deg, #4338ca 0%, #4f46e5 50%, #6366f1 100%);
@@ -447,7 +433,6 @@
   box-shadow: 0 8px 28px rgba(0,0,0,0.20);
 }
 
-/* ─── DARK MODE ─── */
 body.dark .home           { background: #0f0e1a; color: #f1f0ff; }
 body.dark .section-header h2 { color: #f1f0ff; }
 body.dark .service-card,
@@ -468,7 +453,6 @@ body.dark .why-section     { background: #0f0e1a; }
 body.dark .how-section     { background: #12111e; }
 body.dark .steps-grid::before { background: linear-gradient(90deg, #2d2b4e, #4f46e5, #2d2b4e); }
 
-/* ─── RESPONSIVE ─── */
 @media (max-width: 900px) {
   .services-grid { grid-template-columns: repeat(2, 1fr); }
   .hero-img-wrap { width: 280px; }
