@@ -8,7 +8,8 @@ import "../styles/chat.css";
 //Connect socket
 const socket = io("https://quickfix-ttla.onrender.com", 
     {
-        transports: ["websocket,polling"]
+        transports: ["websocket,polling"],
+        withCredentials: true,
     }
 ); 
 

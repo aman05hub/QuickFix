@@ -23,8 +23,8 @@ const server = http.createServer(app);
 
 const io = setupSocket(server);
 
-server.keepAliveTimeout = 12000;
-server.headersTimeout = 12000;
+server.keepAliveTimeout = 120000;
+server.headersTimeout = 120000;
 
 // Middlewares
 app.use(cors({
@@ -38,7 +38,7 @@ app.use(cors({
 app.use(express.json());
 
 app.use((req, res, next) => {
-    res.io = io;
+    req.io = io;
     next();
 });
 
