@@ -7,6 +7,15 @@ async function sendOtp(req, res){
     try{
         const { email } = req.body;
 
+        console.log("EMAIL_USER:", process.env.EMAIL_USER);
+
+        console.log(
+            "EMAIL_PASS:",
+            process.env.EMAIL_PASS ? "EXISTS" : "MISSING"
+        );
+
+        console.log("Incoming Email:", email);
+
         if(!email) {
             return res.status(400).json({ message: "Email is required" });
         }
@@ -75,7 +84,7 @@ async function sendOtp(req, res){
         });
 
     } catch(err){
-        console.log("Send OTP Error:", err.message);
+        console.log("Send OTP Error:", err);
         res.status(500).json({
             message: err.message
         });
@@ -88,7 +97,7 @@ async function verifyOtp(req, res){
 
         console.log("Verify OTP Body:", req.body);
 
-        const { name, email, password, role, profession, otp } = req.body; 
+        const { name, email, password, role, profession, serviceType ,otp } = req.body; 
 
         //Find user
         const user = await User.findOne({ email });
@@ -129,6 +138,7 @@ console.log("NOW:", Date.now());
         user.password = hashedPassword;
         user.role = userRole;
         user.profession = userRole === "provider" ? profession : null;
+        user.serviceType = userRole === "provider" ? serviceType : null;
         user.isApproved = userRole === "provider" ? false : true;
         user.isVerified = true;
 
