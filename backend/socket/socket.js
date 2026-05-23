@@ -1,5 +1,6 @@
 const { Server } = require("socket.io");
 
+
 function setupSocket(server) {
 
     const io = new Server(server, {
@@ -11,8 +12,9 @@ function setupSocket(server) {
             
             methods: ["GET", "POST"],
             credentials: true
-        }
-    })
+        },
+        transports: ["polling", "websocket"]
+    });
 
     io.on("connection", (socket) => {
         console.log("User connected:", socket.id);
@@ -20,7 +22,7 @@ function setupSocket(server) {
         //Join room
         socket.on("join_room", (bookingId) => {
             socket.join(bookingId);
-            console.log("Join room:", bookingId);
+            console.log("Joined room:", bookingId);
         })
 
         //Send message

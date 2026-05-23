@@ -23,6 +23,9 @@ const server = http.createServer(app);
 
 const io = setupSocket(server);
 
+server.keepAliveTimeout = 12000;
+server.headersTimeout = 12000;
+
 // Middlewares
 app.use(cors({
     origin: [

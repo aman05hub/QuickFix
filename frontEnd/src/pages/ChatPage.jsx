@@ -6,7 +6,11 @@ import axios from "axios";
 import "../styles/chat.css";
 
 //Connect socket
-const socket = io("https://quickfix-ttla.onrender.com"); 
+const socket = io("https://quickfix-ttla.onrender.com", 
+    {
+        transports: ["websocket,polling"]
+    }
+); 
 
 function ChatPage() {
     const { bookingId } = useParams();
