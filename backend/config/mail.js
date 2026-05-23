@@ -12,10 +12,23 @@ const transporter = nodemailer.createTransport({
         pass: process.env.EMAIL_PASS
     },
 
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 10000,
+
     tls:{
         rejectUnauthorized: false
     }
     
+
 });
+
+ transporter.verify((err, success) => {
+        if(err){
+            console.log("Mail Error:", err);
+        } else {
+            console.log("Mail Server Ready");
+        }
+    });
 
 module.exports = transporter;
