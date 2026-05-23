@@ -88,7 +88,7 @@ async function sendOtp(req, res){
         });
 
     } catch(err){
-        console.log("Send OTP Error:", err);
+        console.log("Send OTP Error:", err.message);
         res.status(500).json({
             message: err.message
         });
