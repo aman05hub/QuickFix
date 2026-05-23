@@ -53,7 +53,7 @@ async function sendOtp(req, res){
 
         //Email OTP
         await resend.emails.send({
-            from: `"QuickFix" <${process.env.EMAIL_USER}>`,
+            from: "QuickFix <onboarding@resend.dev>" ,
             to: email,
             subject: "QuickFix OTP Verification",
             html: `
