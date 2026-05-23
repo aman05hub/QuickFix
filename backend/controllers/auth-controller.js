@@ -46,6 +46,8 @@ async function sendOtp(req, res){
             { upsert: true, new: true }
         );
 
+        console.log("Sending email...");
+
         //Email OTP
         await transporter.sendMail({
             from: `"QuickFix" <${process.env.EMAIL_USER}>`,
@@ -78,6 +80,8 @@ async function sendOtp(req, res){
             </div>
             `
         });
+
+        console.log("Email sent successfully!");
 
         res.json({
             message: "OTP send successfully to your email 📧"
